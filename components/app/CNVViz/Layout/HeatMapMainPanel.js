@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import {MenuOpen} from "@mui/icons-material";
-import ToolTip from "../../../Viz/ToolTip/ToolTip";
 import {Tooltip} from "@mui/material";
 
 const defaultSX = {

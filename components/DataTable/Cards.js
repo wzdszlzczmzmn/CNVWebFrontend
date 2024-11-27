@@ -1,18 +1,17 @@
 import Chip from "@mui/material/Chip";
-import {GiDna2, GiSeatedMouse, GiFly, GiHighGrass} from "react-icons/gi";
-import {IoIosMan} from "react-icons/io";
+import { GiDna2, GiSeatedMouse, GiFly, GiHighGrass } from "react-icons/gi";
+import { IoIosMan } from "react-icons/io";
 import ViewInArOutlinedIcon from "@mui/icons-material/ViewInArOutlined";
 import SquareIcon from "@mui/icons-material/Square";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {toHumanString} from "../humanize";
-import MUILink from "@mui/material/Link";
-import Tooltip from "@mui/material/Tooltip";
-import {SiMoleculer} from 'react-icons/si';
-import {IoFishOutline} from 'react-icons/io5';
-import {FaMixer} from 'react-icons/fa';
+import { toHumanString } from "../humanize";
+import { StyledTooltipFontSize12 } from "components/styledAntdComponent/StyledTooltip"
+import { SiMoleculer } from 'react-icons/si';
+import { IoFishOutline } from 'react-icons/io5';
+import { FaMixer } from 'react-icons/fa';
 
-export const SpeciesChip = ({species}) => {
+export const SpeciesChip = ({ species }) => {
     switch (species) {
         case 'Mouse':
             return <Chip
@@ -73,11 +72,11 @@ export const SpeciesChip = ({species}) => {
     }
 }
 
-export const ProgramChip = ({program}) => {
+export const ProgramChip = ({ program }) => {
     return <Chip color="secondary" size="small" label={program} variant="outlined"/>
 }
 
-export const DimChip = ({is3d}) => {
+export const DimChip = ({ is3d }) => {
     if (is3d) {
         return <Chip size="small" icon={<ViewInArOutlinedIcon color="inherit" fontSize="small"/>} label='3D'/>
     } else {
@@ -99,7 +98,7 @@ export const DimChip = ({is3d}) => {
 //     }
 // }
 
-export const MoleculeChip = ({molecule}) => {
+export const MoleculeChip = ({ molecule }) => {
     switch (molecule) {
         case 'RNA':
             return <Chip label={"RNA"} avatar={<GiDna2/>} size="small"></Chip>
@@ -149,9 +148,9 @@ const getExperimentalStrategyColor = (experimentalStrategy) => {
     }
 }
 
-export const ExperimentalStrategyChip = ({experimentalStrategy}) => {
+export const ExperimentalStrategyChip = ({ experimentalStrategy }) => {
     return <Chip size={"small"} label={experimentalStrategy}
-                 sx={{color: 'white', bgcolor: getExperimentalStrategyColor(experimentalStrategy)}}></Chip>
+                 sx={{ color: 'white', bgcolor: getExperimentalStrategyColor(experimentalStrategy) }}></Chip>
 }
 
 const shortJournal = {
@@ -171,34 +170,26 @@ const getJournal = (journal) => {
     }
 }
 
-export const JournalText = ({record}) => {
-    return <Tooltip title={record.source_name}>
-        <MUILink href={record.source_url} target="_blank" color="#757575" sx={{fontStyle: 'italic'}}>
-            {`${getJournal(record.journal)}, ${record.year}`.toUpperCase()}
-        </MUILink>
-    </Tooltip>
+export const ProjectText = ({ record }) => {
+    return <StyledTooltipFontSize12 title={record.project_name}>
+        <Typography color="#757575" sx={{ fontStyle: 'italic' }}>{record.project_id}</Typography>
+    </StyledTooltipFontSize12>
 }
 
-export const ProjectText = ({record}) => {
-    return <Tooltip title={record.project_name}>
-        <Typography color="#757575" sx={{fontStyle: 'italic'}}>{record.project_id}</Typography>
-    </Tooltip>
-}
-
-export const TechChip = ({tech}) => {
-    return <Chip size={"small"} label={tech} sx={{color: 'white', bgcolor: getTechColor(tech)}}></Chip>
+export const TechChip = ({ tech }) => {
+    return <Chip size={"small"} label={tech} sx={{ color: 'white', bgcolor: getTechColor(tech) }}></Chip>
 }
 
 
-export const StatsText = ({count, unit}) => {
-    return <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
+export const StatsText = ({ count, unit }) => {
+    return <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
 
         <Typography variant="h5">{toHumanString(count)}</Typography>
-        <Typography variant="caption" fontSize={14} sx={{ml: 0.5}}>{unit}</Typography>
+        <Typography variant="caption" fontSize={14} sx={{ ml: 0.5 }}>{unit}</Typography>
     </Box>
 }
 
-export const PrimarySiteChipWithTooltip = ({primarySites, tooltipPlacement}) => {
+export const PrimarySiteChipWithTooltip = ({ primarySites, tooltipPlacement }) => {
     const primarySiteDescription = (
         <ul style={{ paddingLeft: 12, margin: 0 }}>
             {primarySites.map((primarySite, index) => (
@@ -207,14 +198,14 @@ export const PrimarySiteChipWithTooltip = ({primarySites, tooltipPlacement}) => 
         </ul>
     )
 
-    return <Tooltip title={primarySiteDescription} placement={tooltipPlacement}>
+    return <StyledTooltipFontSize12 title={primarySiteDescription} placement={tooltipPlacement}>
         <Chip size="small" label={primarySites.length === 1 ? primarySites[0] : primarySites.length + ' Primary Sites'}
               variant="outlined"
         ></Chip>
-    </Tooltip>
+    </StyledTooltipFontSize12>
 }
 
-export const DiseaseTypeChipWithTooltip = ({diseaseTypes, tooltipPlacement}) => {
+export const DiseaseTypeChipWithTooltip = ({ diseaseTypes, tooltipPlacement }) => {
     const diseaseTypeDescription = (
         <ul style={{ paddingLeft: 12, margin: 0 }}>
             {diseaseTypes.map((diseaseType, index) => (
@@ -223,8 +214,8 @@ export const DiseaseTypeChipWithTooltip = ({diseaseTypes, tooltipPlacement}) => 
         </ul>
     )
 
-    return <Tooltip title={diseaseTypeDescription} placement={tooltipPlacement}>
+    return <StyledTooltipFontSize12 title={diseaseTypeDescription} placement={tooltipPlacement}>
         <Chip size='small' label={diseaseTypes.length === 1 ? diseaseTypes[0] : diseaseTypes.length + ' Disease Types'}
               variant='outlined' color='error'></Chip>
-    </Tooltip>
+    </StyledTooltipFontSize12>
 }

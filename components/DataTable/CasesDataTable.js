@@ -122,7 +122,9 @@ const chipColors =
         '#B15858', '#E07869', '#A61157', '#87928D',
     ]
 
-const StyledChip = styled(Chip)(({ text, colors }) => ({
+const StyledChip = styled(Chip,{
+    shouldForwardProp: (prop) => prop !== 'customColor',
+})(({ text, colors }) => ({
     backgroundColor: colors?.[text]?.['backgroundColor'] ?? '#0000000A',
     color: colors?.[text]?.['color'] ?? '#00000040'
 }))

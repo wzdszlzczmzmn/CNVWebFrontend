@@ -5,7 +5,7 @@ const innerSX = {
     pb: 3,
     borderRight: 1,
     borderColor: 'divider',
-    minWidth: '280px',
+    width: '350px',
     maxHeight: '100%',
     overflowY: 'scroll',
     '&::-webkit-scrollbar': {

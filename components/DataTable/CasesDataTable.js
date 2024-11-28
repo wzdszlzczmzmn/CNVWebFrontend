@@ -15,6 +15,7 @@ import Box from "@mui/material/Box";
 const StyledTable = styled(Table)({
     '& .ant-table': {
         '& .ant-table-container': {
+            minHeight: 65 * 11,
             '& .ant-table-body, & .ant-table-content': {
                 scrollbarWidth: 'thin',
                 scrollbarColor: '#eaeaea transparent',

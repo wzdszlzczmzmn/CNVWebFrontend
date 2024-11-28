@@ -21,12 +21,16 @@ import Chip from "@mui/material/Chip"
 import { geneChipColors } from "colorSettings/geneChipColors"
 import { styled } from "@mui/material/styles"
 import { StyledTooltipFontSize12 } from 'components/styledAntdComponent/StyledTooltip'
-import { Modal, Button, Table, Input, Dropdown, Flex, Switch, Row, Col } from 'antd'
+import { Modal, Button, Table, Input, message, Flex, Switch, Popover, Badge } from 'antd'
 import Draggable from "react-draggable"
 import _ from "lodash"
 import { produce } from "immer"
 import GeneIcon from '/components/icons/Gene'
 import { MenuOutlined } from '@ant-design/icons'
+import HelpIcon from '/components/icons/Help'
+import Fuse from 'fuse.js'
+import FilterCancelIcon from '/components/icons/FilterCancel'
+import SorterCancelIcon from "/components/icons/SorterCancel"
 
 
 const HeatMapPanel = ({ projectId, cnvType }) => {
@@ -277,6 +281,13 @@ const GeneLevelHeatMapPanelContent = ({ projectId, cnvType, metaInfo }) => {
                 start: 89295,
                 end: 133723,
             },
+            {
+                gene_id: 'ENSG00000239945.1',
+                gene_name: 'AL627309.3',
+                chromosome: 'chr1',
+                start: 89551,
+                end: 91105,
+            },
         ]
     )
 
@@ -379,41 +390,28 @@ const GeneLevelHeatMapPanelContent = ({ projectId, cnvType, metaInfo }) => {
 }
 
 const SelectGenesModal = ({ isModalOpen, handleModalCancel, selectedGenes, setSelectedGenes }) => {
-    const [clonedSelectedGenes, setClonedSelectedGenes] = useState(
-        _.cloneDeep(selectedGenes).map(
-            gene => ({
-                ...gene,
-                isDelete: false
-            }))
-    )
-
-    const [disabled, setDisabled] = useState(true);
+    const [disabled, setDisabled] = useState(true)
     const [bounds, setBounds] = useState({
         left: 0,
         top: 0,
         bottom: 0,
         right: 0,
-    });
+    })
 
-    const draggleRef = useRef(null);
+    const draggleRef = useRef(null)
 
     const onStart = (_event, uiData) => {
-        const { clientWidth, clientHeight } = window.document.documentElement;
-        const targetRect = draggleRef.current?.getBoundingClientRect();
+        const { clientWidth, clientHeight } = window.document.documentElement
+        const targetRect = draggleRef.current?.getBoundingClientRect()
         if (!targetRect) {
-            return;
+            return
         }
         setBounds({
             left: -targetRect.left + uiData.x,
             right: clientWidth - (targetRect.right - uiData.x),
             top: -targetRect.top + uiData.y,
             bottom: clientHeight - (targetRect.bottom - uiData.y),
-        });
-    };
-
-    const confirmGenesDelete = () => {
-        setSelectedGenes(clonedSelectedGenes.filter(gene => !gene.isDelete).map(({ isDelete, ...gene }) => gene))
-        handleModalCancel()
+        })
     }
 
     return (
@@ -426,11 +424,11 @@ const SelectGenesModal = ({ isModalOpen, handleModalCancel, selectedGenes, setSe
                     }}
                     onMouseOver={() => {
                         if (disabled) {
-                            setDisabled(false);
+                            setDisabled(false)
                         }
                     }}
                     onMouseOut={() => {
-                        setDisabled(true);
+                        setDisabled(true)
                     }}
                     // fix eslintjsx-a11y/mouse-events-have-key-events
                     // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md
@@ -472,31 +470,36 @@ const SelectGenesModal = ({ isModalOpen, handleModalCancel, selectedGenes, setSe
             )}
             open={isModalOpen}
             onCancel={handleModalCancel}
-            footer={[
-                <Button key="modal-cnacel-button" type="default" onClick={() => handleModalCancel()}>Cancel</Button>,
-                <Button
-                    key="modal-confirm-button"
-                    type="primary"
-                    onClick={() => confirmGenesDelete()}
-                >
-                    Confirm
-                </Button>
-            ]}
-            width={850}
+            footer={[]}
+            width={1200}
             centered
         >
-            <SelectedGenesSearchBar
-                clonedSelectedGenes={clonedSelectedGenes}
-                setClonedSelectedGenes={setClonedSelectedGenes}
-            />
-            <SelectedGenesTable selectedGenes={clonedSelectedGenes} setSelectedGenes={setClonedSelectedGenes}/>
+            <SelectedGenesTable selectedGenes={selectedGenes} setSelectedGenes={setSelectedGenes}/>
         </Modal>
     )
 }
 
-const SelectedGenesSearchBar = ({ clonedSelectedGenes, setClonedSelectedGenes }) => {
+const SelectedGenesSearchBar = ({ selectedGenes, setFilterSelectedGenes }) => {
+    const [searchText, setSearchText] = useState('')
+
+    const handleSearchTextChange = (e) => {
+        setSearchText(e.target.value)
+    }
+
     const onSearch = () => {
-        console.log(1)
+        if (searchText === '') {
+            setFilterSelectedGenes(selectedGenes)
+        } else {
+            const fuseOptions = {
+                threshold: 0.2,
+                keys: [
+                    ...fields.filter(field => field.checked).map(field => field.value)
+                ]
+            }
+            const fuse = new Fuse(selectedGenes, fuseOptions)
+            const searchedGeneIndexArray = fuse.search(searchText).map(record => record.refIndex)
+            setFilterSelectedGenes(selectedGenes.filter((_, index) => searchedGeneIndexArray.includes(index)))
+        }
     }
 
     const [fields, setFields] = useState([
@@ -539,30 +542,80 @@ const SelectedGenesSearchBar = ({ clonedSelectedGenes, setClonedSelectedGenes })
     return (
         <Stack direction="row" spacing={1}>
             <Input.Search
-                placeholder="input search text"
+                placeholder="Search..."
                 allowClear
-                onSearch={onSearch}
+                value={searchText}
+                onChange={handleSearchTextChange}
+                onSearch={(value) => onSearch(value)}
                 style={{
                     width: 200,
-                    marginLeft: 'auto',
                 }}
             />
-            <Dropdown placement="bottom" dropdownRender={() => <SearchFieldSwitchList fields={fields}
-                                                                                      handleSwitchChange={handleSwitchChange}/>}>
+            <Popover
+                placement="bottom"
+                content={<SearchFieldSwitchList fields={fields} handleSwitchChange={handleSwitchChange}/>}
+                trigger={['click']}
+                overlayInnerStyle={{
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '8px',
+                    boxShadow: 'rgba(0, 0, 0, 0.08) 0px 6px 16px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px -4px, rgba(0, 0, 0, 0.05) 0px 9px 28px 8px',
+                    padding: '4px'
+                }}
+            >
                 <Button icon={<MenuOutlined/>} style={{ color: '#276D8C', borderColor: '#276D8C' }}/>
-            </Dropdown>
+            </Popover>
         </Stack>
     )
 }
 
 const SelectedGenesTable = ({ selectedGenes, setSelectedGenes }) => {
-    const handleSelectedGeneIsDeleteChange = (id) => {
-        setSelectedGenes(
-            produce((draft) => {
-                const gene = draft.find(gene => gene.gene_id === id)
-                gene.isDelete = !gene.isDelete
-            })
-        )
+    const [filteredSelectedGenes, setFilteredSelectedGenes] = useState(selectedGenes)
+    const [filteredInfo, setFilteredInfo] = useState({})
+    const [sortedInfo, setSortedInfo] = useState({})
+    const [selectedRowKeys, setSelectedRowKeys] = useState([])
+    const [messageApi, contextHolder] = message.useMessage()
+
+    const handleGeneDelete = (geneRemove) => {
+        setSelectedGenes(selectedGenes.filter(gene => gene.gene_id !== geneRemove.gene_id))
+        setFilteredSelectedGenes(filteredSelectedGenes.filter(gene => gene.gene_id !== geneRemove.gene_id))
+    }
+
+    const handleChange = (pagination, filters, sorter) => {
+        setFilteredInfo(filters);
+        setSortedInfo(sorter);
+    }
+
+    const clearFilters = () => {
+        setFilteredInfo({});
+    }
+
+    const clearSorter = () => {
+        setSortedInfo({})
+    }
+
+    const deleteSelected = () => {
+        setSelectedGenes(selectedGenes.filter(gene => !selectedRowKeys.includes(gene.gene_id)))
+        setFilteredSelectedGenes(filteredSelectedGenes.filter(gene => !selectedRowKeys.includes(gene.gene_id)))
+
+        messageApi.open({
+            type: 'success',
+            content: `Successfully Delete ${selectedRowKeys.length} Selected Genes!`
+        })
+
+        setSelectedRowKeys([])
+    }
+
+    const rowSelection = {
+        selectedRowKeys,
+        columnWidth: '56px',
+        onChange: (newSelectedRowKeys) => {
+            setSelectedRowKeys([...new Set([...selectedRowKeys, ...newSelectedRowKeys])])
+        },
+        selections: [
+            Table.SELECTION_ALL,
+            Table.SELECTION_INVERT,
+            Table.SELECTION_NONE
+        ]
     }
 
     const columns = [
@@ -572,6 +625,7 @@ const SelectedGenesTable = ({ selectedGenes, setSelectedGenes }) => {
             key: 'gene_id',
             align: 'center',
             sorter: (a, b) => a.gene_id.localeCompare(b.gene_id),
+            sortOrder: sortedInfo.columnKey === 'gene_id' ? sortedInfo.order : null,
         },
         {
             title: 'Gene Name',
@@ -579,6 +633,7 @@ const SelectedGenesTable = ({ selectedGenes, setSelectedGenes }) => {
             key: 'gene_name',
             align: 'center',
             sorter: (a, b) => a.gene_name.localeCompare(b.gene_name),
+            sortOrder: sortedInfo.columnKey === 'gene_name' ? sortedInfo.order : null,
         },
         {
             title: 'Chromosome',
@@ -586,7 +641,10 @@ const SelectedGenesTable = ({ selectedGenes, setSelectedGenes }) => {
             key: 'chromosome',
             align: 'center',
             sorter: (a, b) => a.chromosome.localeCompare(b.chromosome),
+            sortOrder: sortedInfo.columnKey === 'chromosome' ? sortedInfo.order : null,
             filters: getFilters(selectedGenes, (item) => item.chromosome),
+            filteredValue: filteredInfo.chromosome || null,
+            onFilter: (value, record) => record.chromosome.includes(value),
         },
         {
             title: 'Start',
@@ -594,6 +652,7 @@ const SelectedGenesTable = ({ selectedGenes, setSelectedGenes }) => {
             key: 'start',
             align: 'center',
             sorter: (a, b) => a.start - b.start,
+            sortOrder: sortedInfo.columnKey === 'start' ? sortedInfo.order : null,
         },
         {
             title: 'End',
@@ -601,49 +660,118 @@ const SelectedGenesTable = ({ selectedGenes, setSelectedGenes }) => {
             key: 'end',
             align: 'center',
             sorter: (a, b) => a.end - b.end,
+            sortOrder: sortedInfo.columnKey === 'end' ? sortedInfo.order : null,
         },
         {
             title: 'Action',
             key: 'action',
             align: 'center',
-            render: (_, record) => (
-                record.isDelete ?
-                    <Button
-                        color="primary"
-                        variant="dashed"
-                        onClick={() => handleSelectedGeneIsDeleteChange(record.gene_id)}
-                    >
-                        Add
-                    </Button>
-                    :
-                    <Button
-                        danger
-                        type="dashed"
-                        onClick={() => handleSelectedGeneIsDeleteChange(record.gene_id)}
-                    >
-                        Remove
-                    </Button>
+            render: (_, gene) => (
+                <DeleteGeneButton handleDelete={() => handleGeneDelete(gene)}/>
             )
         }
     ]
 
     return (
-        <StyledTable
-            columns={columns}
-            dataSource={selectedGenes}
-            pagination={{
-                defaultPageSize: 5,
-                showQuickJumper: true,
-                showSizeChanger: false,
-            }}
-            rowKey="gene_id"
-        />
+        <div style={{ width: '96%', margin: 'auto', minHeight: '500px' }}>
+            {contextHolder}
+            <Flex justify="space-between" style={{ margin: '8px 0px 16px 0px' }}>
+                <SelectedGenesButtonGroup
+                    clearSorter={clearSorter}
+                    clearFilter={clearFilters}
+                    deleteSelected={deleteSelected}
+                    selectedCount={selectedRowKeys.length}
+                />
+                <SelectedGenesSearchBar
+                    selectedGenes={selectedGenes}
+                    setFilterSelectedGenes={setFilteredSelectedGenes}
+                />
+            </Flex>
+            <StyledTable
+                columns={columns}
+                dataSource={filteredSelectedGenes}
+                rowKey="gene_id"
+                onChange={handleChange}
+                rowSelection={rowSelection}
+                pagination={{
+                    defaultPageSize: 5,
+                    showQuickJumper: true,
+                    showSizeChanger: false,
+                }}
+                scroll={{
+                    y: 55 * 6,
+                }}
+            />
+        </div>
     )
 }
+
+const SelectedGenesButtonGroup = ({ clearSorter, clearFilter, deleteSelected, selectedCount }) => (
+    <Flex gap={15}>
+        <Button icon={<SorterCancelIcon/>} onClick={clearSorter}>Clear Sorter</Button>
+        <Button icon={<FilterCancelIcon/>} onClick={clearFilter}>Clear Filter</Button>
+        <Button
+            icon={<Badge count={selectedCount} showZero/>}
+            onClick={deleteSelected}
+            iconPosition="end"
+        >
+            Delete Selected
+        </Button>
+    </Flex>
+)
+
+const DeleteGeneButton = ({ handleDelete }) => {
+    const [open, setOpen] = useState(false)
+
+    const handleOpenChange = (newOpen) => {
+        setOpen(newOpen)
+    }
+
+    const handleDeleteCancel = () => {
+        setOpen(false)
+    }
+
+    return (
+        <Popover
+            placement="top"
+            content={<DeleteConfirmPopoverContent handleDelete={handleDelete} handleDeleteCancel={handleDeleteCancel}/>}
+            trigger={['click']}
+            open={open}
+            onOpenChange={handleOpenChange}
+            overlayInnerStyle={{
+                padding: '4px 8px 10px 8px'
+            }}
+        >
+            <Button
+                danger
+                type="dashed"
+            >
+                Delete
+            </Button>
+        </Popover>
+    )
+}
+
+const DeleteConfirmPopoverContent = ({ handleDelete, handleDeleteCancel }) => (
+    <Flex vertical gap={4}>
+        <Flex justify="center">
+            <HelpIcon style={{ fontSize: '24px', color: '#faad14' }}/>
+        </Flex>
+        <Flex justify="center">
+            <Typography sx={{ fontSize: '14px' }}>Sure to Delete?</Typography>
+        </Flex>
+        <Divider sx={{ margin: '0px 0px 4px 0px' }}/>
+        <Flex gap={8} justify="center">
+            <Button danger size="small" onClick={handleDelete}>Confirm</Button>
+            <Button size="small" color="primary" variant="outlined" onClick={handleDeleteCancel}>Cancel</Button>
+        </Flex>
+    </Flex>
+)
 
 const StyledTable = styled(Table)({
     '& .ant-table': {
         '& .ant-table-container': {
+            minHeight: 55 * 7,
             '& .ant-table-body, & .ant-table-content': {
                 scrollbarWidth: 'thin',
                 scrollbarColor: '#eaeaea transparent',
@@ -653,7 +781,7 @@ const StyledTable = styled(Table)({
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    minHeight: 600,
+                    minHeight: 233,
                 }
             },
             '& .ant-table-header > table': {
@@ -670,7 +798,7 @@ const StyledTable = styled(Table)({
             maxHeight: 1000,
         }
     }
-});
+})
 
 const DataSettingPanel = ({
     metaInfo,
@@ -988,13 +1116,11 @@ const SearchFieldSwitchList = ({ fields, handleSwitchChange }) => {
         <Flex
             vertical
             gap={1}
-            style={{
-                background: '#FFFFFF',
-                borderRadius: '8px',
-                boxShadow: 'rgba(0, 0, 0, 0.08) 0px 6px 16px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px -4px, rgba(0, 0, 0, 0.05) 0px 9px 28px 8px',
-                padding: '4px'
-            }}
         >
+            <Box sx={{ margin: '4px 4px 0px 4px' }}>
+                <Typography sx={{ fontWeight: 500 }}>Search Fields:</Typography>
+            </Box>
+            <Divider sx={{ margin: '4px' }}/>
             {
                 fields.map(
                     field => (

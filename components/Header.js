@@ -8,18 +8,18 @@ import HideOnScroll from "components/HideOnScroll";
 import Image from "next/image";
 
 export const navLinks = [
-    {title: "Home", path: "/"},
-    {title: "Dataset", path: "/view"},
-    {title: "Publication", path: "/"},
-    {title: "Analysis", path: "/"},
-    {title: "Tutorial", path: "/"},
-    {title: "About", path: "/"},
+    { title: "Home", path: "/" },
+    { title: "Dataset", path: "/view" },
+    { title: "Publication", path: "/" },
+    { title: "Analysis", path: "/" },
+    { title: "Tutorial", path: "/" },
+    { title: "About", path: "/" },
 ]
 
 const Header = () => {
     return (
         <>
-            <HideOnScroll>
+            <>
                 <AppBar position="fixed" elevation={0}
                         sx={{
                             backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -32,10 +32,10 @@ const Header = () => {
                     <Toolbar>
                         <Container
                             maxWidth={'xl'}
-                            sx={{display: `flex`, justifyContent: `space-between`}}
+                            sx={{ display: `flex`, justifyContent: `space-between` }}
                         >
                             {/*<IconButton edge="start" aria-label="home">*/}
-                            <MuiNextLink activeClassName="active" href="/" sx={{mt: 1}}>
+                            <MuiNextLink activeClassName="active" href="/" sx={{ mt: 1 }}>
                                 <Image src="/AQUILA-LOGO.svg" width="113" height="45" aria-label="Home" alt="Logo"/>
                             </MuiNextLink>
 
@@ -45,7 +45,7 @@ const Header = () => {
                         </Container>
                     </Toolbar>
                 </AppBar>
-            </HideOnScroll>
+            </>
         </>
     );
 };

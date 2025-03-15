@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import React, {memo} from "react";
-import {CNVHeatMap} from "/components/Viz/HeatMap/CNVHeatMap";
+import {CNVHeatMap} from "/components/Viz/HeatMap/ChromosomeLevel/CNVHeatMap";
 
 const CNVHeatMapContainer = (
     {

@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 import * as d3 from 'd3'
-import {CNVMatrixTooltipTemplate} from '../ToolTip/CNVHeatMapToolTipTemplates'
+import {CNVMatrixTooltipTemplate} from '../../ToolTip/CNVHeatMapToolTipTemplates'
 
 export const HeatMap = (
     {

@@ -28,13 +28,13 @@ const StyledTable = styled(Table)({
                     minHeight: 600,
                 }
             },
-            '& .ant-table-header > table': {
-                width: 'max-content',
-                minWidth: '100%',
-                '& .ant-table-cell-fix-right-first': {
-                    minWidth: '125px'
-                }
-            }
+            // '& .ant-table-header > table': {
+            //     width: 'max-content',
+            //     minWidth: '100%',
+            //     '& .ant-table-cell-fix-right-first': {
+            //         minWidth: '125px'
+            //     }
+            // }
         },
     },
     '& .ant-spin-nested-loading': {
@@ -372,7 +372,6 @@ const DataTable = ({
                 }
             });
         });
-
     };
 
     useEffect(fetchData, [

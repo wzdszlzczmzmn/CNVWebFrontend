@@ -1,4 +1,4 @@
-import {ColorLegend} from "../ColorLegend";
+import {ColorLegend} from "../../ColorLegend";
 import * as d3 from "d3";
 
 export const ColorLegends = (

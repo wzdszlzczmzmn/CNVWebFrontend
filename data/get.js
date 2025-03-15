@@ -2,7 +2,9 @@ import axios from 'axios';
 import useSWR from "swr";
 
 export const fetcher = async url => {
-    const res = await axios.get(url);
+    const res = await axios.get(url,{
+        timeout: 60000,
+    });
     return res.data;
 }
 

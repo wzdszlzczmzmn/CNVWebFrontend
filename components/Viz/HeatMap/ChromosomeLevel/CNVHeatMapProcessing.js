@@ -1,7 +1,7 @@
 import * as Papa from "papaparse"
 import _ from "lodash";
 import * as d3 from "d3";
-import parseNewick from "../../../tools/newick";
+import parseNewick from "../../../../tools/newick";
 
 const convertCNVArrayToObject = (CNVMatrix, chromosomeRange) => {
     const index = CNVMatrix[0].slice(1, CNVMatrix[0].length)
@@ -214,9 +214,11 @@ export const createColorScales = (metaRanges, CNVBaseline) => {
     const colorScaleLow = d3.scaleSequential()
         .domain([scaleRange[0], CNVBaseline])
         .interpolator(d3.interpolateRgb('#add8e6', '#ffffff'))
+        .clamp(true)
     const colorScaleHigh = d3.scaleSequential()
         .domain([CNVBaseline, scaleRange[1]])
         .interpolator(d3.interpolateRgb('#ffffff', '#6A0220'))
+        .clamp(true)
 
     // CNV Meta Color Legend
     const genderColorScale = d3.scaleOrdinal()

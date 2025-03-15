@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef, useState} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
     basicDataProcessing,
     getChromosomeRange,
@@ -11,24 +11,24 @@ import {
     resetTreeXPosition,
     createColorScales
 } from "./CNVHeatMapProcessing"
-import {createPortal} from "react-dom";
-import CustomTooltip from '../ToolTip/ToolTip'
+import { createPortal } from "react-dom";
+import CustomTooltip from '../../ToolTip/ToolTip'
 import * as d3 from 'd3'
-import {HeatMap} from './HeatMapComponent'
-import {NodeHistory} from './NodeHistoryComponent'
-import {PhylogeneticTree} from './PhylogeneticTreeComponent'
-import {Header} from './HeaderComponent'
-import {HclusterAvgCNVMatrix} from './HclusterAvgCNVMatrix'
-import {ColorLegends} from './ColorLegends'
+import { HeatMap } from './HeatMapComponent'
+import { NodeHistory } from './NodeHistoryComponent'
+import { PhylogeneticTree } from './PhylogeneticTreeComponent'
+import { Header } from './HeaderComponent'
+import { HclusterAvgCNVMatrix } from './HclusterAvgCNVMatrix'
+import { ColorLegends } from './ColorLegends'
 
 export const CNVHeatMap = ({
-                               CNVMatrixMeta,
-                               CNVMatrix,
-                               CNVMeta,
-                               CNVCut,
-                               CNVBaseline,
-                               vizSetting = {}
-                           }) => {
+    CNVMatrixMeta,
+    CNVMatrix,
+    CNVMeta,
+    CNVCut,
+    CNVBaseline,
+    vizSetting = {}
+}) => {
     const svgRef = useRef(null)
     const zoomContainerRef = useRef(null)
 
@@ -83,7 +83,7 @@ export const CNVHeatMap = ({
         [CNVMatrixMeta, heatMapChartSetting.blockWidth])
 
     // Get Color Scales.
-    const {colorScales, getCNVColor} = createColorScales(data.metaRanges, CNVBaseline)
+    const { colorScales, getCNVColor } = createColorScales(data.metaRanges, CNVBaseline)
 
     const showTooltip = (event, content) => {
         toolTipRef.current.showTooltip(event, content)
@@ -135,7 +135,7 @@ export const CNVHeatMap = ({
 
     useEffect(() => {
         function zoomed(event) {
-            d3.select('svg g').attr('transform', event.transform)
+            d3.select(zoomContainerRef.current).attr('transform', event.transform)
         }
 
         const zoom = d3.zoom().scaleExtent([0.1, 10]).on('zoom', zoomed)
@@ -144,7 +144,7 @@ export const CNVHeatMap = ({
     }, [])
 
     return (
-        <div style={{height: '85vh'}}>
+        <div style={{ height: '85vh' }}>
             <svg ref={svgRef} width={"100%"} height={"100%"}>
                 <g ref={zoomContainerRef}>
                     <ColorLegends

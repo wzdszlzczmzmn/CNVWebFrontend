@@ -47,3 +47,6 @@ export const runSpatailCommunity = `${root2}/community`;
 export const runCentrality = `${root2}/centrality`;
 
 export const postCasesURL = `${root}/cnvdata/cases`
+export const postGenesURL = `${root}/cnvdata/genes`
+export const postGLCNSRenderingURL = `${root}/cnvdata/GLCNS-render`
+export const postPloidyStairstepRenderURL = `${root}/cnvdata/Ploidy-Stairstep-render`

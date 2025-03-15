@@ -14,7 +14,6 @@ export default class MyDocument extends Document {
         return (
             <Html lang="en">
                 <Head>
-                    {this.props.styles}
                     <meta name='description' content={APP_DESCRIPTION}/>
                     <meta name='format-detection' content='telephone=no'/>
                     <meta name="theme-color" content={theme.palette.primary.main}/>

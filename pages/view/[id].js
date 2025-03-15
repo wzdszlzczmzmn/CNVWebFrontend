@@ -5,13 +5,12 @@ import {
     getCNVProjectIdURL,
 } from "data/get";
 import {Container} from "@mui/material";
-import {useState} from "react";
+import React, {useState} from "react";
 import RecordDetailsTable from "components/DataTable/RecordDetailsTable";
 import Typography from "@mui/material/Typography";
 import Head from 'next/head';
 import Stack from "@mui/material/Stack";
 import ContentBox from "../../components/Layout/ContentBox";
-import CNVHeatMaps from "../../components/app/CNVViz/CNVHeatMaps";
 import DataStatisticChart from "components/Viz/DataStatisticChart"
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
@@ -21,6 +20,11 @@ import InputLabel from "@mui/material/InputLabel";
 import {StatisticSelectButton} from "components/app/Statistic/Buttons"
 import {StatisticSelections} from "components/app/Statistic/StatisticSelections"
 import MemoCasesDataTable from 'components/DataTable/CasesDataTable'
+import MemoChromosomeLevelCNVHeatMaps
+    from "../../components/app/CNVViz/CNVHeatMap/ChromosomeLevelCNVHeatMap/ChromosomeLevelCNVHeatMaps"
+import MemoGeneLevelCNVHeatMaps from "../../components/app/CNVViz/CNVHeatMap/GeneLevelCNVHeatMap/GeneLevelCNVHeatMaps"
+import MemoPloidyStairstepContainer from "../../components/app/CNVViz/PloidyStairstep/PloidyStairstepContainer"
+import MemoEmbeddingAnalyseContainer from "../../components/app/CNVViz/EmbeddingAnalyse/EmbeddingAnalyseContainer"
 
 
 const DetailsPage = ({id, initROI, initROIMeta, initRecordData}) => {
@@ -85,11 +89,29 @@ const DetailsPage = ({id, initROI, initROIMeta, initRecordData}) => {
                 </Stack>
 
                 <Stack>
-                    <Typography variant="h5" sx={{mb: 2, mt: 4, ml: 3}}>Cases</Typography>
+                    <Typography variant="h5" sx={{mb: 2, mt: 4, ml: 1}}>Cases</Typography>
                     <MemoCasesDataTable projectId={id}/>
                 </Stack>
 
-                <CNVHeatMaps projectId={id}/>
+                <Stack>
+                    <Typography variant="h5" sx={{ ml: 1, mb: 2 }}>Embedding Analyse Visualization</Typography>
+                    <MemoEmbeddingAnalyseContainer projectId={id}/>
+                </Stack>
+
+                <Stack sx={{ mt: 4 }}>
+                    <Typography variant="h5" sx={{ ml: 1, mb: 2 }}>Chromosome Level CNV HeatMap</Typography>
+                    <MemoChromosomeLevelCNVHeatMaps projectId={id}/>
+                </Stack>
+
+                <Stack sx={{ mt: 4 }}>
+                    <Typography variant="h5" sx={{ ml: 1, mb: 2 }}>Gene Level CNV HeatMap</Typography>
+                    <MemoGeneLevelCNVHeatMaps projectId={id}/>
+                </Stack>
+
+                <Stack sx={{ mt: 4 }}>
+                    <Typography variant="h5" sx={{ ml: 1, mb: 2 }}>Ploidy Stairstep</Typography>
+                    <MemoPloidyStairstepContainer projectId={id}/>
+                </Stack>
             </Container>
         </>
     )

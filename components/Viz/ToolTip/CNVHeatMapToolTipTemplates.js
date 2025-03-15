@@ -143,3 +143,77 @@ export const hclusterCNVMatrixTooltipTemplate = (hcluster, valueColor, valueTitl
         <div style={{clear: "both"}}/>
     </div>
 )
+
+export const geneTooltipTemplate = (geneInfo) => (
+    <div style={{ margin: "0px 0 0", lineHeight: 1 }}>
+        <div style={{ margin: "0px 0 0", lineHeight: 1 }}>
+            <div style={{ margin: '10px 0 0', lineHeight: 1 }}>
+                <div style={{ margin: '0 0 0', lineHeight: 1 }}>
+                    <span style={{ fontSize: 14, color: "#666", fontWeight: 400, marginLeft: 2 }}>
+                      ID:
+                    </span>
+                    <span style={{ float: "right", marginLeft: 20, fontSize: 14, color: "#666", fontWeight: 900 }}>
+                      {geneInfo['gene_id']}
+                    </span>
+                    <div style={{ clear: "both" }}/>
+                </div>
+                <div style={{ clear: "both" }}/>
+            </div>
+
+
+            <div style={{ margin: '10px 0 0', lineHeight: 1 }}>
+                <div style={{ margin: '0 0 0', lineHeight: 1, }}>
+                    <span style={{ fontSize: 14, color: "#666", fontWeight: 400, marginLeft: 2 }}>
+                      Name:
+                    </span>
+                    <span style={{ float: "right", marginLeft: 20, fontSize: 14, color: "#666", fontWeight: 900 }}>
+                      {geneInfo['gene_name']}
+                    </span>
+                    <div style={{ clear: "both" }}/>
+                </div>
+                <div style={{ clear: "both" }}/>
+            </div>
+
+
+            <div style={{ margin: '10px 0 0', lineHeight: 1 }}>
+                <div style={{ margin: '0 0 0', lineHeight: 1 }}>
+                    <span style={{ fontSize: 14, color: "#666", fontWeight: 400, marginLeft: 2 }}>
+                      Chromosome:
+                    </span>
+                    <span style={{ float: "right", marginLeft: 20, fontSize: 14, color: "#666", fontWeight: 900 }}>
+                      {geneInfo['chromosome']}
+                    </span>
+                    <div style={{ clear: "both" }}/>
+                </div>
+                <div style={{ clear: "both" }}/>
+            </div>
+
+            <div style={{ margin: '10px 0 0', lineHeight: 1 }}>
+                <div style={{ margin: '0 0 0', lineHeight: 1 }}>
+                    <span style={{ fontSize: 14, color: "#666", fontWeight: 400, marginLeft: 2 }}>
+                      Start:
+                    </span>
+                    <span style={{ float: "right", marginLeft: 20, fontSize: 14, color: "#666", fontWeight: 900 }}>
+                      {geneInfo['start']}
+                    </span>
+                    <div style={{ clear: "both" }}/>
+                </div>
+                <div style={{ clear: "both" }}/>
+            </div>
+
+            <div style={{ margin: '10px 0 0', lineHeight: 1 }}>
+                <div style={{ margin: '0 0 0', lineHeight: 1 }}>
+                    <span style={{ fontSize: 14, color: "#666", fontWeight: 400, marginLeft: 2 }}>
+                      End:
+                    </span>
+                    <span style={{ float: "right", marginLeft: 20, fontSize: 14, color: "#666", fontWeight: 900 }}>
+                      {geneInfo['end']}
+                    </span>
+                    <div style={{ clear: "both" }}/>
+                </div>
+                <div style={{ clear: "both" }}/>
+            </div>
+        </div>
+        <div style={{ clear: "both" }}/>
+    </div>
+)

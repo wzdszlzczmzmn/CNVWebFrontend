@@ -1,16 +1,5 @@
 import { useRef, useState } from "react"
-
-const getInitDataSetting = (metaInfo) => {
-    const diseaseType = Object.keys(metaInfo)[0]
-    const primarySite = Object.keys(metaInfo[diseaseType])[0]
-    const workflowType = metaInfo[diseaseType][primarySite][0]
-
-    return {
-        diseaseType,
-        primarySite,
-        workflowType
-    }
-}
+import { getInitDataSetting } from "./Utils/InitUtils"
 
 export const useDataSetting = (metaInfo) => {
     const {diseaseType, primarySite, workflowType} = getInitDataSetting(metaInfo)

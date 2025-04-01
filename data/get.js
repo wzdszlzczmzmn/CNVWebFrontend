@@ -31,12 +31,15 @@ export const getCNVMetaURL = `${root}/cnvdata/project_CNVMeta`
 export const getCNVCutURL = `${root}/cnvdata/project_CNVCut`
 
 export const getProjectMetaInfoURL = `${root}/cnvdata/project_meta_info`
-export const getProjectCNVTypeInfoURL = `${root}/cnvdata/project_CNV_type_info`
+export const getProjectGISTICMetaInfoURL = `${root}/cnvdata/project_gistic_meta_info`
+export const getProjectCNVInfoURL = `${root}/cnvdata/project_CNV_info`
 export const getCasesURL = `${root}/cnvdata/cases`
 export const getCasesFilterInfoURL = `${root}/cnvdata/cases-filter-info`
 
 export const getDiseaseAndSitesDataURL = `${root}/cnvdata/diseasesAndSites`
 export const getProjectStatisticDataURL = `${root}/cnvdata/project_data_statistic`
+
+export const getRecurrentRegionsAreaPlotRenderURL = `${root}/cnvdata/Recurrent-Regions-Area_Plot_render`
 
 const DataInfoFallback = {
     data_uuid: "",

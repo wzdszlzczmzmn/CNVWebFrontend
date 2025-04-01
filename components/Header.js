@@ -10,10 +10,10 @@ import Image from "next/image";
 export const navLinks = [
     { title: "Home", path: "/" },
     { title: "Dataset", path: "/view" },
-    { title: "Publication", path: "/" },
-    { title: "Analysis", path: "/" },
-    { title: "Tutorial", path: "/" },
-    { title: "About", path: "/" },
+    // { title: "Publication", path: "/" },
+    // { title: "Analysis", path: "/" },
+    // { title: "Tutorial", path: "/" },
+    // { title: "About", path: "/" },
 ]
 
 const Header = () => {
@@ -36,7 +36,7 @@ const Header = () => {
                         >
                             {/*<IconButton edge="start" aria-label="home">*/}
                             <MuiNextLink activeClassName="active" href="/" sx={{ mt: 1 }}>
-                                <Image src="/AQUILA-LOGO.svg" width="113" height="45" aria-label="Home" alt="Logo"/>
+                                {/*<Image src="/AQUILA-LOGO.svg" width="113" height="45" aria-label="Home" alt="Logo"/>*/}
                             </MuiNextLink>
 
                             {/*</IconButton>*/}

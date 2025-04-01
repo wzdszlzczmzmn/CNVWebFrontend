@@ -1,16 +1,5 @@
 import { useState } from "react"
-
-const getInitDataSetting = (metaInfo) => {
-    const diseaseType = Object.keys(metaInfo)[0]
-    const primarySite = Object.keys(metaInfo[diseaseType])[0]
-    const workflowType = metaInfo[diseaseType][primarySite][0]
-
-    return {
-        diseaseType,
-        primarySite,
-        workflowType
-    }
-}
+import { getInitDataSetting } from "./Utils/InitUtils"
 
 export const useDataSetting = (metaInfo) => {
     const {diseaseType, primarySite, workflowType} = getInitDataSetting(metaInfo)
@@ -19,7 +8,11 @@ export const useDataSetting = (metaInfo) => {
         primarySite: primarySite,
         workflowType: workflowType,
         valueType: "Total",
-        embeddingMethod: 'All'
+        embeddingMethod: 'PCA',
+        groupingStrategy: "Hierarchical Clustering",
+        groupNumber: 5,
+        clusterMethod: 'weighted',
+        clusterMetric: 'euclidean'
     })
 
     const handleDiseaseTypeChange = (newDiseaseType) => {
@@ -62,6 +55,35 @@ export const useDataSetting = (metaInfo) => {
             embeddingMethod: newEmbeddingMethod
         }))
     }
+    const handleGroupingStrategyChange = (newGroupingStrategy) => {
+        setDataSetting((prev) => ({
+            ...prev,
+            groupingStrategy: newGroupingStrategy
+        }))
+    }
+
+    const handleGroupNumberChange = (event) => {
+        const { value } = event.target
+
+        setDataSetting((prev) => ({
+            ...prev,
+            groupNumber: value
+        }))
+    }
+
+    const handleClusterMethodChange = (newClusterMethod) => {
+        setDataSetting((prev) => ({
+            ...prev,
+            clusterMethod: newClusterMethod,
+        }))
+    }
+
+    const handleClusterMetricChange = (newClusterMetric) => {
+        setDataSetting((prev) => ({
+            ...prev,
+            clusterMetric: newClusterMetric
+        }))
+    }
 
     return {
         dataSetting,
@@ -69,6 +91,10 @@ export const useDataSetting = (metaInfo) => {
         handlePrimarySiteChange,
         handleWorkflowTypeChange,
         handleValueTypeChange,
-        handleEmbeddingMethodChange
+        handleEmbeddingMethodChange,
+        handleGroupingStrategyChange,
+        handleGroupNumberChange,
+        handleClusterMethodChange,
+        handleClusterMetricChange
     }
 }

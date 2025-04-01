@@ -2,7 +2,7 @@ import { memo, useEffect, useMemo, useRef, useState } from "react"
 import * as d3 from "d3"
 import { preprocessGroupedCNVMatrix } from "./Preprocess"
 import { usePloidyStairstepVizSettingStore } from 'stores/PloidyStairstepVizSettingStore'
-import { useCanvasContext } from "../../app/CustomHook/PloidyStairstepHook"
+import { useCanvasContext } from "../../app/CustomHook/CNVVizCustomHooks/PloidyStairstepHook"
 import { chromosomeXDomain, hg38ChromosomeInfo, hg38ChromosomeTicks } from "../../../const/ChromosomeInfo"
 import { produce } from 'immer'
 import { createPortal } from "react-dom"
@@ -74,7 +74,18 @@ const PloidyStairstep = ({
                 .attr("stroke-opacity", d => d === CNVBaseline ? 1 : 0.2)
                 .attr("stroke-dasharray", d => d === CNVBaseline ? '10, 10' : null)
             )
-    }, [CNVBaseline, xRange, y])
+
+        gy.selectAll('.yAxis-label')
+            .data([1])
+            .join('text')
+            .attr('x', CNVBaseline === 0 ? -24 : -18)
+            .attr('y', yRange[1] - 20)
+            .attr('text-anchor', 'start')
+            .attr('fill', 'black')
+            .attr('font-weight', 'bold')
+            .attr('class', 'yAxis-label')
+            .text(CNVBaseline === 0 ? '↑ CN log2 ratio' : '↑ CN')
+    }, [CNVBaseline, xRange, y, yRange])
 
     useEffect(() => {
         const gPath = d3.select(pathRef.current)

@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
-import {Tooltip} from "@mui/material";
+import { Tooltip } from "@mui/material";
 
 
 const Footer = () => {
@@ -29,38 +29,42 @@ const Footer = () => {
             direction="row"
             justifyContent="center"
             spacing={2}
-            sx={{my: 2}}
+            sx={{ my: 2 }}
         >
             <Tooltip title="Github">
-                <IconButton href="https://github.com/Mr-Milk/Aquila-next"
-                            sx={{
-                                bgcolor: "#0C0C0C",
-                                '&:hover': {bgcolor: "#434343"},
-                                ...IconButtonStyle
-                            }}>
+                <IconButton
+                    // href="https://github.com/Mr-Milk/Aquila-next"
+                    sx={{
+                        bgcolor: "#0C0C0C",
+                        '&:hover': { bgcolor: "#434343" },
+                        ...IconButtonStyle
+                    }}
+                >
                     <GitHub/>
                 </IconButton>
             </Tooltip>
 
             <Tooltip title="Email us">
-                <IconButton href="mailto:echeung@um.edu.mo"
-                            sx={{
-                                bgcolor: "#0D5661",
-                                '&:hover': {bgcolor: "#0089A7"},
-                                ...IconButtonStyle
-                            }}
+                <IconButton
+                    // href="mailto:echeung@um.edu.mo"
+                    sx={{
+                        bgcolor: "#0D5661",
+                        '&:hover': { bgcolor: "#0089A7" },
+                        ...IconButtonStyle
+                    }}
                 >
                     <Email/>
                 </IconButton>
             </Tooltip>
 
             <Tooltip title="Lab page">
-                <IconButton href="https://cheunglab.org"
-                            sx={{
-                                bgcolor: "#CC543A",
-                                '&:hover': {bgcolor: "#ED784A"},
-                                ...IconButtonStyle
-                            }}>
+                <IconButton
+                    // href="https://cheunglab.org"
+                    sx={{
+                        bgcolor: "#CC543A",
+                        '&:hover': { bgcolor: "#ED784A" },
+                        ...IconButtonStyle
+                    }}>
                     <Science/>
                 </IconButton>
             </Tooltip>
@@ -69,11 +73,12 @@ const Footer = () => {
         <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
             <Grid item>
                 <Typography align="right" color={"black"} fontFamily={"Outfit"}>
-                    ©{new Date().getFullYear()} Cheung Lab, University of Macau
+                    ©{new Date().getFullYear()}
+                    {/*Cheung Lab, University of Macau*/}
                 </Typography>
             </Grid>
             <Grid item>
-                <Avatar src="/UM-Logo.png"/>
+                {/*<Avatar src="/UM-Logo.png"/>*/}
             </Grid>
         </Grid>
     </Box>;

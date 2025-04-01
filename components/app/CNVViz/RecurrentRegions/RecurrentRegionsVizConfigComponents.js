@@ -1,3 +1,4 @@
+import { ListCollapsePanel } from "../../../Layout/ListCollapsePanel"
 import { PieChart } from "@mui/icons-material"
 import Stack from "@mui/material/Stack"
 import React, { Fragment } from "react"
@@ -5,13 +6,11 @@ import { SettingSelector } from "../SettingConfigComponents/SettingSelector"
 import { SettingInput } from "../SettingConfigComponents/SettingInput"
 import Divider from "@mui/material/Divider"
 import { Button } from "antd"
-import { ListCollapsePanel } from "../../../Layout/ListCollapsePanel"
 
 export const DataSettingPanel = ({
     metaInfo,
     dataSettingManager,
-    renderEmbeddingAnalyse,
-    isShowValueTypeSelector
+    renderRecurrentRegionsAreaPlot
 }) => {
     const settingItems = [
         {
@@ -19,7 +18,7 @@ export const DataSettingPanel = ({
             value: dataSettingManager.dataSetting.diseaseType,
             setValue: dataSettingManager.handleDiseaseTypeChange,
             title: "Disease Type:",
-            valueList: Object.keys(metaInfo),
+            valueList: metaInfo.map(meta => meta.diseaseType),
             inputComponentType: "Selector"
         },
         {
@@ -27,7 +26,9 @@ export const DataSettingPanel = ({
             value: dataSettingManager.dataSetting.primarySite,
             setValue: dataSettingManager.handlePrimarySiteChange,
             title: "Primary Site:",
-            valueList: Object.keys(metaInfo[dataSettingManager.dataSetting.diseaseType]),
+            valueList: metaInfo.find(
+                meta => meta.diseaseType === dataSettingManager.dataSetting.diseaseType
+            ).primarySites,
             inputComponentType: "Selector"
         },
         {
@@ -35,69 +36,18 @@ export const DataSettingPanel = ({
             value: dataSettingManager.dataSetting.workflowType,
             setValue: dataSettingManager.handleWorkflowTypeChange,
             title: "Workflow Type:",
-            valueList: metaInfo[dataSettingManager.dataSetting.diseaseType][dataSettingManager.dataSetting.primarySite],
+            valueList: ['DNAcopy'],
             inputComponentType: "Selector"
         },
         {
-            key: "embeddingMethod",
-            value: dataSettingManager.dataSetting.embeddingMethod,
-            setValue: dataSettingManager.handleEmbeddingMethodChange,
-            title: "Embedding Method:",
-            valueList: ["PCA", "t-SNE", "UMAP"],
+            key: "yAxisValueType",
+            value: dataSettingManager.dataSetting.yAxisValueType,
+            setValue: dataSettingManager.handleYAxisValueTypeChange,
+            title: 'YAxis Value Type:',
+            valueList: ['G-score', 'q-value', 'frequency'],
             inputComponentType: "Selector"
-        },
-        {
-            key: "groupingStrategy",
-            value: dataSettingManager.dataSetting.groupingStrategy,
-            setValue: dataSettingManager.handleGroupingStrategyChange,
-            title: "Cluster Strategy:",
-            valueList: ["Hierarchical Clustering", "Custom"],
-            inputComponentType: "Selector"
-        },
-        {
-            key: "groupNumber",
-            name: "groupNumber",
-            value: dataSettingManager.dataSetting.groupNumber,
-            setValue: dataSettingManager.handleGroupNumberChange,
-            type: "number",
-            title: "Cluster Number:",
-            inputComponentType: "TextField"
         }
     ]
-
-    if (dataSettingManager.dataSetting.groupingStrategy === 'Hierarchical Clustering') {
-        settingItems.push(...[
-            {
-                key: 'clusterMethod',
-                value: dataSettingManager.dataSetting.clusterMethod,
-                setValue: dataSettingManager.handleClusterMethodChange,
-                title: 'Cluster Method:',
-                valueList: dataSettingManager.dataSetting.clusterMetric === 'euclidean' ? ['single', 'complete', 'average', 'weighted', 'centroid', 'median', 'ward'] : ['single', 'complete', 'average', 'weighted'],
-                inputComponentType: "Selector"
-            },
-            {
-                key: 'clusterMetric',
-                value: dataSettingManager.dataSetting.clusterMetric,
-                setValue: dataSettingManager.handleClusterMetricChange,
-                title: 'Cluster Metric:',
-                valueList: ['euclidean', 'cityblock', 'correlation', 'cosine', 'braycurtis', 'canberra'],
-                inputComponentType: 'Selector'
-            }
-        ])
-    }
-
-    if (isShowValueTypeSelector) {
-        settingItems.push(
-            {
-                key: "valueType",
-                value: dataSettingManager.dataSetting.valueType,
-                setValue: dataSettingManager.handleValueTypeChange,
-                title: "Value Type:",
-                valueList: ["Total", "Major", "Minor"],
-                inputComponentType: "Selector"
-            },
-        )
-    }
 
     return (
         <ListCollapsePanel
@@ -143,7 +93,7 @@ export const DataSettingPanel = ({
                         color: '#FFFFFF',
                         borderColor: '#41B3A2'
                     }}
-                    onClick={renderEmbeddingAnalyse}
+                    onClick={renderRecurrentRegionsAreaPlot}
                 >
                     Render
                 </Button>

@@ -7,7 +7,6 @@ import { PieChart, Settings } from "@mui/icons-material"
 import { ListCollapsePanel } from "../../../Layout/ListCollapsePanel"
 import { Button } from "antd"
 import { hg38ChromosomeInfo } from "../../../../const/ChromosomeInfo"
-import { SettingRadio } from "../SettingConfigComponents/SettingRadio"
 
 export const DataSettingPanel = ({
     metaInfo,

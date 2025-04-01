@@ -5,9 +5,9 @@ import Tabs from '@mui/material/Tabs'
 import { TabPanel } from '../../Layout/TabPanel'
 import Typography from "@mui/material/Typography"
 import useSWR from "swr"
-import { getProjectCNVTypeInfoURL, fetcher, getProjectMetaInfoURL } from '/data/get'
+import { getProjectCNVInfoURL, fetcher, getProjectMetaInfoURL } from '/data/get'
 import CircularProgress from "@mui/material/CircularProgress";
-import { useChartDynamicSetting, useDataSetting } from "../../../CustomHook/CNVHeatMapHook"
+import { useChartDynamicSetting, useDataSetting } from "../../../CustomHook/CNVVizCustomHooks/CNVHeatMapHook"
 import Stack from "@mui/material/Stack"
 import HeatMapLeftPanel from "../../Layout/HeatMapLeftPanel"
 import { List } from "@mui/material"
@@ -23,48 +23,10 @@ import { MemoCNVHeatMapContainer } from "../../Container/CNVHeatMapContainer"
 import ErrorView from "../../../../StateViews/ErrorView"
 import LoadingView from "../../../../StateViews/LoadingView"
 
-const ChromosomeLevelCNVHeatMaps = ({ projectId }) => {
+const ChromosomeLevelCNVHeatMaps = ({ projectId, cnvTypes }) => {
     const [value, setValue] = useState(0);
 
     const handleChange = (e, v) => setValue(v);
-
-    const {
-        data: cnvTypes,
-        error: cnvTypesError,
-        isLoading: isLoading
-    } = useSWR(`${getProjectCNVTypeInfoURL}?projectId=${projectId}`, fetcher)
-
-    if (cnvTypesError) {
-        return (
-            <Box sx={{
-                width: '100%',
-                height: '500px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                <Typography variant='h4'>😭 Fail To Load Data</Typography>
-            </Box>
-        )
-    }
-
-    if (isLoading) {
-        return (
-            <Box sx={{
-                width: '100%',
-                height: '500px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                <CircularProgress size={60}/>
-                <Typography
-                    variant='h5'
-                    sx={{ ml: 3 }}>
-                    Loading ProjectMeta..., please wait for a moment.</Typography>
-            </Box>
-        )
-    }
 
     return (
         <Box sx={{ border: 1, borderColor: 'divider' }}>

@@ -5,7 +5,9 @@ import {Tooltip} from "@mui/material";
 const defaultSX = {
     width: '100%',
     height: '100%',
-    position: 'relative'
+    position: 'relative',
+    overflowX: 'hidden',
+    overflowY: 'hidden',
 }
 
 const HeatMapMainPanel = ({sx, children, handleSideBarChange, sideBarOpen}) => {

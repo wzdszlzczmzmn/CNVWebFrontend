@@ -50,3 +50,4 @@ export const postCasesURL = `${root}/cnvdata/cases`
 export const postGenesURL = `${root}/cnvdata/genes`
 export const postGLCNSRenderingURL = `${root}/cnvdata/GLCNS-render`
 export const postPloidyStairstepRenderURL = `${root}/cnvdata/Ploidy-Stairstep-render`
+export const postEmbeddingAnalyseRenderURL = `${root}/cnvdata/Embedding-Analyse-render`

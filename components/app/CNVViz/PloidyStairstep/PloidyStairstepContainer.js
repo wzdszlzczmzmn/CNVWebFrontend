@@ -1,14 +1,14 @@
 import React, { memo, useEffect, useMemo, useState } from "react"
 import Box from "@mui/material/Box"
 import useSWR from "swr"
-import { fetcher, getProjectCNVTypeInfoURL, getProjectMetaInfoURL } from "../../../../data/get"
+import { fetcher, getProjectCNVInfoURL, getProjectMetaInfoURL } from "../../../../data/get"
 import ErrorView from "../../../StateViews/ErrorView"
 import LoadingView from "../../../StateViews/LoadingView"
 import Stack from "@mui/material/Stack"
 import HeatMapLeftPanel from "../Layout/HeatMapLeftPanel"
 import { List } from "@mui/material"
 import HeatMapMainPanel from "../Layout/HeatMapMainPanel"
-import { useDataSetting, useDisplaySetting } from 'components/app/CustomHook/PloidyStairstepHook'
+import { useDataSetting, useDisplaySetting } from 'components/app/CustomHook/CNVVizCustomHooks/PloidyStairstepHook'
 import Tabs from "@mui/material/Tabs"
 import Tab from "@mui/material/Tab"
 import { TabPanel } from "../Layout/TabPanel"
@@ -161,24 +161,10 @@ const PloidyStairstepContent = ({ projectId, cnvType, metaInfo }) => {
     )
 }
 
-const PloidyStairstepContainer = ({ projectId }) => {
+const PloidyStairstepContainer = ({ projectId, cnvTypes }) => {
     const [value, setValue] = useState(0)
 
     const handleChange = (e, v) => setValue(v)
-
-    const {
-        data: cnvTypes,
-        error: cnvTypesError,
-        isLoading: isLoading
-    } = useSWR(`${getProjectCNVTypeInfoURL}?projectId=${projectId}`, fetcher)
-
-    if (cnvTypesError) {
-        return <ErrorView/>
-    }
-
-    if (isLoading) {
-        return <LoadingView/>
-    }
 
     return (
         <Box sx={{ width: '100%', border: 1, borderColor: 'divider' }}>
@@ -195,6 +181,7 @@ const PloidyStairstepContainer = ({ projectId }) => {
             </Box>
             {
                 cnvTypes
+                    .filter(cnvType => cnvType !== 'Gene Level Copy Number')
                     .map((cnvType, index) => (
                         <TabPanel value={value} index={index} key={index} sx={{ height: '600px' }}>
                             <PloidyStairstepWrapper projectId={projectId} cnvType={cnvType}/>

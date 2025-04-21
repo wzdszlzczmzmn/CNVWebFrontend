@@ -18,15 +18,11 @@ import {
     DiseaseTypeChipWithTooltip
 } from "./Cards";
 import Tooltip from "@mui/material/Tooltip";
-import DownloadFab from "../app/View/DownloadFab";
-import {ImBoxAdd, ImBoxRemove, ImDownload} from 'react-icons/im';
+import {ImDownload} from 'react-icons/im';
 import PageviewOutlinedIcon from '@mui/icons-material/PageviewOutlined';
 
 
-const DataRecordCard = ({record, addDownloadList, removeDownloadList}) => {
-
-    const [added, setAdded] = useState(false)
-
+const DataRecordCard = ({record}) => {
     return <Grid item xs={4} md={6}>
         <Container maxWidth="400px">
             <Paper square elevation={0} sx={{
@@ -77,7 +73,6 @@ const DataRecordCard = ({record, addDownloadList, removeDownloadList}) => {
                                 size="small"
                                 startIcon={<PageviewOutlinedIcon/>}
                                 color="primary"
-                                //sx={{ mr: 1 }}
                             >
                                 View
                             </Button>
@@ -86,36 +81,11 @@ const DataRecordCard = ({record, addDownloadList, removeDownloadList}) => {
                         <Tooltip title={"Download"}>
                             <IconButton
                                 size="small"
-                                href={`https://api.aquila.cheunglab.org/static/${record.project_id}.zip`}
                                 color="primary"
-                                //download={`${record.technology}-${record.is_3d ? '3D' : '2D'}-${record.species}-${record.tissue}-${record.disease}-${record.cell_count}x${record.marker_count}x${record.roi_count}.zip`}
                             >
                                 <ImDownload/>
                             </IconButton>
                         </Tooltip>
-                        {added ? <Tooltip title={"Remove from download list"}>
-                                <IconButton
-                                    size="small"
-                                    color="error"
-                                    onClick={() => {
-                                        removeDownloadList(record.data_uuid)
-                                        setAdded(false)
-                                    }}>
-                                    <ImBoxRemove/>
-                                </IconButton>
-                            </Tooltip> :
-                            <Tooltip title={"Add to download list"}>
-                                <IconButton
-                                    size="small"
-                                    color="primary"
-                                    onClick={() => {
-                                        addDownloadList(record.data_uuid)
-                                        setAdded(true)
-                                    }}>
-                                    <ImBoxAdd/>
-                                </IconButton>
-                            </Tooltip>
-                        }
                     </Stack>
                     <ProjectText record={record}/>
 
@@ -170,7 +140,6 @@ const DataRecordList = memo(function DataRecordList({data}) {
                     ))}
                 </Grid>
         }
-        <DownloadFab downloadList={downloadList}/>
     </Container>
 })
 

@@ -66,7 +66,7 @@ export const CNVHeatMap = ({
             marginTop: 50,
             width: 350,
             legendWidth: 250,
-            legendHeight: 50
+            legendHeight: 45
         }
     } = vizSetting
 

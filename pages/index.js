@@ -37,68 +37,66 @@ const LinkButton = ({href, children, ...props}) => {
 
 
 const Home = ({dbStats}) => {
-
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'), {noSsr: true})
 
     return (
         <Container component="section" maxWidth="xl">
 
-            <Grid container direction="row" justifyContent="center"
-                  alignItems="center" spacing={1} sx={{
-                py: 4,
-                mb: 2,
-            }}>
-                <Grid item xs={10} md={6}>
-                    <Stack spacing={2}>
-                        <Typography variant="h2" fontFamily="Plus Jakarta Sans"
-                                    color="grass" fontWeight="700">Exploring
-                            Spatial
-                            Omics</Typography>
-                        <Typography variant={matches ? "body1" : "h6"}
-                                    fontWeight="400">
-                            {"The spatial omics database and online analysis platform for biologists." +
-                                "Visualize spatial omics data at any scale and " +
-                                "run spatial analysis with zero code."}
-                        </Typography>
-                        <Typography>
-                            {"Read our publication on "}
-                            <Link href="https://doi.org/10.1093/nar/gkac874">
-                            <span style={{fontStyle: "italic"}}>
-                                {"Nucleic Acids Research"}
-                                </span>
-                            </Link>
-                        </Typography>
-                        <Stack direction="row" spacing={2}>
-                            <LinkButton href="/view" startIcon={
-                                <RocketLaunchRoundedIcon/>}>Explore</LinkButton>
-                            <LinkButton href="/analysis" startIcon={
-                                <AnalyticsRoundedIcon/>}>Analysis</LinkButton>
-                        </Stack>
-                    </Stack>
-                </Grid>
-                <Grid item xs={8} md={4}>
-                    <Image
-                        src={"/3d-tissue.png"}
-                        alt={"3d tissue"}
-                        layout={"responsive"}
-                        width={953}
-                        height={818}
-                        priority
-                    />
-                </Grid>
+            {/*<Grid container direction="row" justifyContent="center"*/}
+            {/*      alignItems="center" spacing={1} sx={{*/}
+            {/*    py: 4,*/}
+            {/*    mb: 2,*/}
+            {/*}}>*/}
+            {/*    <Grid item xs={10} md={6}>*/}
+            {/*        <Stack spacing={2}>*/}
+            {/*            <Typography variant="h2" fontFamily="Plus Jakarta Sans"*/}
+            {/*                        color="grass" fontWeight="700">Exploring*/}
+            {/*                Spatial*/}
+            {/*                Omics</Typography>*/}
+            {/*            <Typography variant={matches ? "body1" : "h6"}*/}
+            {/*                        fontWeight="400">*/}
+            {/*                {"The spatial omics database and online analysis platform for biologists." +*/}
+            {/*                    "Visualize spatial omics data at any scale and " +*/}
+            {/*                    "run spatial analysis with zero code."}*/}
+            {/*            </Typography>*/}
+            {/*            <Typography>*/}
+            {/*                {"Read our publication on "}*/}
+            {/*                <Link href="https://doi.org/10.1093/nar/gkac874">*/}
+            {/*                <span style={{fontStyle: "italic"}}>*/}
+            {/*                    {"Nucleic Acids Research"}*/}
+            {/*                    </span>*/}
+            {/*                </Link>*/}
+            {/*            </Typography>*/}
+            {/*            <Stack direction="row" spacing={2}>*/}
+            {/*                <LinkButton href="/view" startIcon={*/}
+            {/*                    <RocketLaunchRoundedIcon/>}>Explore</LinkButton>*/}
+            {/*                <LinkButton href="/analysis" startIcon={*/}
+            {/*                    <AnalyticsRoundedIcon/>}>Analysis</LinkButton>*/}
+            {/*            </Stack>*/}
+            {/*        </Stack>*/}
+            {/*    </Grid>*/}
+            {/*    <Grid item xs={8} md={4}>*/}
+            {/*        <Image*/}
+            {/*            src={"/3d-tissue.png"}*/}
+            {/*            alt={"3d tissue"}*/}
+            {/*            layout={"responsive"}*/}
+            {/*            width={953}*/}
+            {/*            height={818}*/}
+            {/*            priority*/}
+            {/*        />*/}
+            {/*    </Grid>*/}
 
-            </Grid>
-            <Divider/>
+            {/*</Grid>*/}
+            {/*<Divider/>*/}
 
-            {/*<SectionIntro/>*/}
-            <OneItemCenter>
-                <StatsIntro data={dbStats}/>
-            </OneItemCenter>
+            {/*/!*<SectionIntro/>*!/*/}
+            {/*<OneItemCenter>*/}
+            {/*    <StatsIntro data={dbStats}/>*/}
+            {/*</OneItemCenter>*/}
 
 
-            <FeaturesIntro/>
-
+            {/*<FeaturesIntro/>*/}
         </Container>
     )
 }

@@ -1,5 +1,5 @@
 import DataRecordList from "../DataTable/DataRecordList";
-import {useState} from "react";
+import { useState } from "react";
 import FilterList from "../DataTable/FilterList";
 import SearchRecords from "../DataTable/SearchRecords";
 import SortButton from "../DataTable/SortButton";
@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
 
-const RecordsPanel = ({data}) => {
+const RecordsPanel = ({ data }) => {
     const [displayData, setDisplayData] = useState(data);
 
     if (displayData === undefined) {
@@ -27,12 +27,13 @@ const RecordsPanel = ({data}) => {
             }}>
                 <Grid
                     container
-                      justifyContent="center"
-                      alignItems="center"
-                      sx={{
-                    px: 4,
-                    my: 2,
-                }}>
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{
+                        px: 4,
+                        my: 2,
+                    }}
+                >
                     <Grid item>
                         <SearchRecords data={data} updateDataFn={setDisplayData}/>
                     </Grid>

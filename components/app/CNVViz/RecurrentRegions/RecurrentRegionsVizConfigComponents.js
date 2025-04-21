@@ -1,11 +1,14 @@
 import { ListCollapsePanel } from "../../../Layout/ListCollapsePanel"
-import { PieChart } from "@mui/icons-material"
+import { PieChart, Settings } from "@mui/icons-material"
 import Stack from "@mui/material/Stack"
 import React, { Fragment } from "react"
-import { SettingSelector } from "../SettingConfigComponents/SettingSelector"
+import { SettingSelector, SettingSelectorRaw } from "../SettingConfigComponents/SettingSelector"
 import { SettingInput } from "../SettingConfigComponents/SettingInput"
 import Divider from "@mui/material/Divider"
 import { Button } from "antd"
+import { useRecurrentRegionsAreaPlotStore } from "../../../../stores/RecurrentRegionsAreaPlotStore"
+import { SettingRadio } from "../SettingConfigComponents/SettingRadio"
+import { hg38ChromosomeInfo } from "../../../../const/ChromosomeInfo"
 
 export const DataSettingPanel = ({
     metaInfo,
@@ -44,7 +47,7 @@ export const DataSettingPanel = ({
             value: dataSettingManager.dataSetting.yAxisValueType,
             setValue: dataSettingManager.handleYAxisValueTypeChange,
             title: 'YAxis Value Type:',
-            valueList: ['G-score', 'q-value', 'frequency'],
+            valueList: ['G-score', 'q-value'],
             inputComponentType: "Selector"
         }
     ]
@@ -101,3 +104,127 @@ export const DataSettingPanel = ({
         </ListCollapsePanel>
     )
 }
+
+export const DisplaySettingPanel = () => {
+    const setting = useRecurrentRegionsAreaPlotStore((state) => state.displaySetting)
+    const setChartSetting = useRecurrentRegionsAreaPlotStore((state) => state.setChartSetting)
+
+    const handleChartSettingChange = (event) => {
+        setChartSetting(event, 'displaySetting')
+    }
+
+    const settingItems = [
+        {
+            key: "chromosome",
+            name: 'chromosome',
+            value: setting.chromosome,
+            title: "Chromosome:",
+            valueList: ['All', ...Object.keys(hg38ChromosomeInfo)],
+            inputComponentType: "Selector"
+        },
+        {
+            id: 'recurrentRegionDisplayMode',
+            name: 'mode',
+            value: setting.mode,
+            title: 'Y Axis Max Mode',
+            options: [
+                {
+                    label: "Fixed",
+                    value: "Fixed"
+                },
+                {
+                    label: "Adaptive",
+                    value: "Adaptive"
+                }
+            ],
+            inputComponentType: 'Radio'
+        }
+    ]
+
+    if (setting.mode === 'Fixed') {
+        settingItems.push(
+            ...[
+                {
+                    id: 'ampYAxisMax',
+                    name: 'ampYAxisMax',
+                    value: setting.ampYAxisMax,
+                    type: "number",
+                    title: "Amp Y Axis Max:",
+                    inputComponentType: "TextField"
+                },
+                {
+                    id: 'delYAxisMax',
+                    name: 'delYAxisMax',
+                    value: setting.delYAxisMax,
+                    type: "number",
+                    title: "Del Y Axis Max:",
+                    inputComponentType: "TextField"
+                }
+            ]
+        )
+    }
+
+    return (
+        <ChartSettingPanel
+            icon={<Settings/>}
+            title={'Display Setting'}
+            settings={settingItems}
+            onSettingChange={handleChartSettingChange}
+        />
+    )
+}
+
+const ChartSettingPanel = ({
+    defaultOpenState = false,
+    icon,
+    title,
+    showDivider = true,
+    settings,
+    onSettingChange,
+}) => (
+    <ListCollapsePanel
+        defaultOpenState={defaultOpenState}
+        icon={icon}
+        title={title}
+        showDivider={showDivider}
+    >
+        <Stack spacing={2} sx={{ mt: 2, mb: 2, px: 2 }}>
+            {settings.map((setting, index) => (
+                <Fragment key={setting.id}>
+                    {
+                        setting.inputComponentType === "Selector" ? (
+                            <SettingSelectorRaw
+                                value={setting.value}
+                                name={setting.name}
+                                setValue={onSettingChange}
+                                title={setting.title}
+                                valueList={setting.valueList}
+                            />
+                        ) : (
+                            setting.inputComponentType === "TextField" ? (
+                                <SettingInput
+                                    value={setting.value}
+                                    handleValueChange={onSettingChange}
+                                    valueName={setting.name}
+                                    id={setting.id}
+                                    type={setting.type}
+                                    title={setting.title}
+                                    step={1}
+                                />
+                            ) : (
+                                <SettingRadio
+                                    value={setting.value}
+                                    name={setting.name}
+                                    options={setting.options}
+                                    title={setting.title}
+                                    handleValueChange={onSettingChange}
+                                />
+                            )
+                        )
+                    }
+                    {index < settings.length - 1 && <Divider/>}
+                </Fragment>
+            ))}
+        </Stack>
+    </ListCollapsePanel>
+)

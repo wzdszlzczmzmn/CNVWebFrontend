@@ -9,7 +9,8 @@ import { ListCollapsePanel } from "../../../Layout/ListCollapsePanel"
 
 export const DataSettingPanel = ({
     metaInfo,
-    dataSettingManager
+    dataSettingManager,
+    renderRecurrentEvents
 }) => {
     const settingItems = [
         {
@@ -84,7 +85,7 @@ export const DataSettingPanel = ({
                         color: '#FFFFFF',
                         borderColor: '#41B3A2'
                     }}
-                    // onClick={renderEmbeddingAnalyse}
+                    onClick={renderRecurrentEvents}
                 >
                     Render
                 </Button>

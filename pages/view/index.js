@@ -9,7 +9,7 @@ const ViewPage = ({ recordData }) => {
     return (
         <>
             <Head>
-                <title>Aquila | Browse</title>
+                <title>Browse</title>
             </Head>
                 <Container maxWidth={"xl"} sx={{my: 4, display: 'flex', justifyContent: 'center' }}>
                     <Typography variant="h3" sx={{ mx: 2 }} fontFamily='Plus Jakarta Sans'>Datasets</Typography>

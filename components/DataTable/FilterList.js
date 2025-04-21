@@ -35,10 +35,7 @@ const FilterItemText = ({item, count}) => {
 
 
 const FilterGroup = ({title, field, counter, filter, showLess, checkedList, updateOnChange}) => {
-    // console.log(field)
-    // console.log(counter)
     let ItemList = Object.entries(counter).sort((a, b) => b[1] - a[1])
-    // .sort((a, b) => a[0].localeCompare(b[0]))
     if (showLess) {
         ItemList = ItemList.slice(0, 12)
     }
@@ -204,7 +201,6 @@ const FilterList = ({data, updateDataFn}) => {
     const showButtonText = showLess ? "More Filters" : "Less Filters"
 
     const filterData = useCallback((data, filter) => {
-        console.log(filter)
         return data.filter((r) => {
             const passFilterProgram =
                 (filter['program'].length > 0) ? filter['program'].includes(r.program) : true;

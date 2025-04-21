@@ -23,7 +23,7 @@ export default function MyApp(props) {
         <ConfigProvider>
             <CacheProvider value={emotionCache}>
                 <Head>
-                    <title>Aquila</title>
+                    <title>CNV Web</title>
                     <meta name="viewport" content="initial-scale=1, width=device-width"/>
                 </Head>
                 <ThemeProvider theme={theme}>

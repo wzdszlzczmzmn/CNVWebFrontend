@@ -96,9 +96,14 @@ const GeneLevelHeatMapPanelContent = ({ projectId, metaInfo }) => {
             workflowType: dataSetting.workflowType,
             selectedGenes: selectedGenes.map(gene => gene.gene_id)
         })
-        .then((response) => {
-            setRenderData(response.data)
-            setRenderGenes([...selectedGenes])
+            .then((response) => {
+                if (response.data !== '') {
+                    setRenderData(response.data)
+                    setRenderGenes([...selectedGenes])
+                } else {
+                    setRenderData([])
+                }
+            }).finally(() => {
             setProcessing(false)
         })
     }
@@ -152,7 +157,7 @@ const GeneLevelHeatMapPanelContent = ({ projectId, metaInfo }) => {
                                 sx={{ height: '100%', border: 0 }}
                                 loadingPrompt="Processing Data..., please wait for a moment."
                             />
-                        ) : !renderData ? (
+                        ) : renderData === null ? (
                             <Box sx={{
                                 width: '100%',
                                 height: '100%',
@@ -162,6 +167,23 @@ const GeneLevelHeatMapPanelContent = ({ projectId, metaInfo }) => {
                             }}>
                                 <Typography variant='h4'>
                                     Please select genes to render the corresponding visualization.
+                                </Typography>
+                            </Box>
+                        ) : Array.isArray(renderData) && renderData.length === 0 ? (
+                            <Box sx={{
+                                width: '100%',
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                px: '20px'
+                            }}>
+                                <Typography variant='h4'>
+                                    No CNV differences detected for the selected genes.
+                                </Typography>
+                                <Typography variant='h4'>
+                                    Visualization is not available.
                                 </Typography>
                             </Box>
                         ) : (

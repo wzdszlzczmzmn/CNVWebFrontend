@@ -34,20 +34,21 @@ const ChromosomeLevelCNVHeatMaps = ({ projectId, cnvTypes }) => {
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     {
                         cnvTypes
-                        .filter(cnvType => cnvType !== 'Gene Level Copy Number')
-                        .map((cnvType, index) => (
-                            <Tab label={cnvType} key={index} sx={{ textTransform: 'none' }}/>
-                        ))
+                            .filter(cnvType => cnvType !== 'Gene Level Copy Number')
+                            .map((cnvType, index) => (
+                                <Tab label={cnvType} key={index} sx={{ textTransform: 'none' }}/>
+                            ))
                     }
                 </Tabs>
             </Box>
             {
                 cnvTypes
-                .map((cnvType, index) => (
-                    <TabPanel value={value} index={index} key={index} sx={{ height: '85vh' }}>
-                        <ChromosomeLevelCNVHeatMapPanel projectId={projectId} cnvType={cnvType}/>
-                    </TabPanel>
-                ))
+                    .filter(cnvType => cnvType !== 'Gene Level Copy Number')
+                    .map((cnvType, index) => (
+                        <TabPanel value={value} index={index} key={index} sx={{ height: '85vh' }}>
+                            <ChromosomeLevelCNVHeatMapPanel projectId={projectId} cnvType={cnvType}/>
+                        </TabPanel>
+                    ))
             }
         </Box>
     )
@@ -55,6 +56,7 @@ const ChromosomeLevelCNVHeatMaps = ({ projectId, cnvTypes }) => {
 
 const calculateCNVBaseline = (cnvType, workflowType, valueType) => {
     let cnvBaseline
+
     if (cnvType === 'Allele-specific Copy Number Segment') {
         if (valueType === 'Total') {
             cnvBaseline = 2
@@ -233,6 +235,7 @@ const ChromosomeLevelCNVHeatMapContent = ({ projectId, cnvType, metaInfo }) => {
                     }}
                     dataSetting={dataSetting}
                     cnvType={cnvType}
+                    isValueType={isShowValueTypeSelector}
                 />
             </HeatMapMainPanel>
         </Stack>

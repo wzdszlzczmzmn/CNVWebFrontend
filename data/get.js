@@ -40,6 +40,8 @@ export const getDiseaseAndSitesDataURL = `${root}/cnvdata/diseasesAndSites`
 export const getProjectStatisticDataURL = `${root}/cnvdata/project_data_statistic`
 
 export const getRecurrentRegionsAreaPlotRenderURL = `${root}/cnvdata/Recurrent-Regions-Area_Plot_render`
+export const getRecurrentEventsRenderURL = `${root}/cnvdata/Recurrent-Events-render`
+export const getRecurrentEventsEachPageRenderURL = `${root}/cnvdata/Recurrent-Events-each-page-render`
 
 const DataInfoFallback = {
     data_uuid: "",

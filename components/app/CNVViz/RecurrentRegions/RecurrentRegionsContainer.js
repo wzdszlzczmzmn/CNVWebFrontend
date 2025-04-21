@@ -13,7 +13,7 @@ import Stack from "@mui/material/Stack"
 import HeatMapMainPanel from "../Layout/HeatMapMainPanel"
 import HeatMapLeftPanel from "../Layout/HeatMapLeftPanel"
 import { List } from "@mui/material"
-import { DataSettingPanel } from "./RecurrentRegionsVizConfigComponents"
+import { DataSettingPanel, DisplaySettingPanel } from "./RecurrentRegionsVizConfigComponents"
 import MemoRecurrentRegionsAreaPlot from "../../../Viz/RecurrentRegionsAreaPlot/RecurrentRegionsAreaPlot"
 import axios from "axios"
 import Typography from "@mui/material/Typography"
@@ -143,6 +143,7 @@ const RecurrentRegionsContent = ({ projectId, cnvType, metaInfo }) => {
                                     dataSettingManager={dataSettingManager}
                                     renderRecurrentRegionsAreaPlot={renderRecurrentRegionsAreaPlot}
                                 />
+                                <DisplaySettingPanel/>
                             </List>
                         </HeatMapLeftPanel>
                     ) : (
@@ -182,7 +183,9 @@ const RecurrentRegionsContent = ({ projectId, cnvType, metaInfo }) => {
                                 px: '20px'
                             }}>
                                 <Typography variant='h4'>
-                                    GISTIC analysis cannot be performed because only one CNV sample meets the criteria for project {project}, disease type {disease_type}, and primary site {primary_site}.
+                                    GISTIC analysis cannot be performed because only one CNV sample meets the criteria
+                                    for project {projectId}, disease type {dataSettingManager.dataSetting.diseaseType},
+                                    and primary site {dataSettingManager.dataSetting.primarySite}.
                                 </Typography>
                             </Box>
                         ) : (
@@ -206,7 +209,7 @@ const RecurrentRegionsContent = ({ projectId, cnvType, metaInfo }) => {
 const parseScoresGISTIC = (scoresGISTIC) => {
     return scoresGISTIC.map(scoreGISTIC => ({
         'type': scoreGISTIC["Type"],
-        'chromosome': scoreGISTIC["Chromosome"].trim(), // 去掉多余空格
+        'chromosome': 'chr' + scoreGISTIC["Chromosome"].trim(),
         'start': +scoreGISTIC["Start"],
         'end': +scoreGISTIC["End"],
         'q-value': +scoreGISTIC["-log10(q-value)"],

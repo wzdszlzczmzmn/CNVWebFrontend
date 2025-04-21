@@ -133,7 +133,7 @@ const EmbeddingScatterPlot = ({
                         <text
                             fontSize={titleSetting.fontSize}
                             transform={`translate(${innerWidth / 2}, ${titleSetting.marginTop})`}
-                            dy='1rem'
+                            dy='1em'
                             textAnchor='middle'
                         >
                             {embeddingMethod} Plot

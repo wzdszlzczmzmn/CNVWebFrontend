@@ -32,7 +32,7 @@ import MemoRecurrentEventsContainer from "../../components/app/CNVViz/RecurrentE
 import MemoRecurrentRegionsContainer from "../../components/app/CNVViz/RecurrentRegions/RecurrentRegionsContainer"
 
 
-const DetailsPage = ({ id, initROI, initROIMeta, initRecordData }) => {
+const DetailsPage = ({ id, initRecordData }) => {
     const [statisticsDataType, setStatisticsDataType] = useState("Disease Attribute")
     const [selectedItem, setSelectedItem] = useState('Disease Type');
 
@@ -66,7 +66,7 @@ const DetailsPage = ({ id, initROI, initROIMeta, initRecordData }) => {
     return (
         <>
             <Head>
-                <title>Aquila | Data</title>
+                <title>Project Detail</title>
             </Head>
             <Container maxWidth={"xl"} sx={{ mb: 4 }}>
                 <Stack direction="row" justifyContent="flex-start" spacing={4} sx={{ mt: 4 }}>

@@ -6,8 +6,7 @@ import theme from "../styles/theme";
 import { createCache, extractStyle, StyleProvider } from '@ant-design/cssinjs';
 
 
-const APP_NAME = 'Aquila'
-const APP_DESCRIPTION = 'Spatial single cell database and aquila_spatial platform'
+const APP_DESCRIPTION = 'description'
 
 export default class MyDocument extends Document {
     render() {
@@ -18,11 +17,6 @@ export default class MyDocument extends Document {
                     <meta name='format-detection' content='telephone=no'/>
                     <meta name="theme-color" content={theme.palette.primary.main}/>
                     <meta name="msapplication-TileColor" content="#da532c"/>
-
-                    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png"/>
-                    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png"/>
-                    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png"/>
-                    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5"/>
 
                     <link rel="preconnect" href="https://fonts.googleapis.com"/>
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"/>

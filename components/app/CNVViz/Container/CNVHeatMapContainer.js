@@ -20,6 +20,7 @@ const CNVHeatMapContainer = (
         vizSetting,
         dataSetting,
         cnvType,
+        isValueType
     }
 ) => {
     const {
@@ -34,7 +35,7 @@ const CNVHeatMapContainer = (
         primarySite: dataSetting.primarySite,
         workflowType: dataSetting.workflowType,
         cnvType: cnvType,
-        ...(dataSetting.valueType !== undefined && { valueType: dataSetting.valueType })
+        ...(isValueType && { valueType: dataSetting.valueType })
     })
 
     const {
@@ -50,7 +51,7 @@ const CNVHeatMapContainer = (
         workflowType: dataSetting.workflowType,
         cnvType: cnvType,
         cluster: dataSetting.cluster,
-        ...(dataSetting.valueType !== undefined && { valueType: dataSetting.valueType })
+        ...(isValueType && { valueType: dataSetting.valueType })
     })
 
     const {
@@ -66,7 +67,7 @@ const CNVHeatMapContainer = (
         workflowType: dataSetting.workflowType,
         cnvType: cnvType,
         cluster: dataSetting.cluster,
-        ...(dataSetting.valueType !== undefined && { valueType: dataSetting.valueType })
+        ...(isValueType && { valueType: dataSetting.valueType })
     })
 
     const {

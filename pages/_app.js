@@ -10,6 +10,8 @@ import Header from "components/Header";
 import Footer from "components/Footer";
 import {styled} from "@mui/material/styles";
 import { ConfigProvider } from 'antd';
+import antdTheme from "../styles/antdTheme"
+
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -20,7 +22,9 @@ export default function MyApp(props) {
     const {Component, emotionCache = clientSideEmotionCache, pageProps} = props;
 
     return (
-        <ConfigProvider>
+        <ConfigProvider
+            theme={antdTheme}
+        >
             <CacheProvider value={emotionCache}>
                 <Head>
                     <title>CNV Web</title>

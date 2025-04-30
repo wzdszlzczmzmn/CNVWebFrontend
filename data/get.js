@@ -43,6 +43,8 @@ export const getRecurrentRegionsAreaPlotRenderURL = `${root}/cnvdata/Recurrent-R
 export const getRecurrentEventsRenderURL = `${root}/cnvdata/Recurrent-Events-render`
 export const getRecurrentEventsEachPageRenderURL = `${root}/cnvdata/Recurrent-Events-each-page-render`
 
+export const getCaseSummaryDetailURL = `${root}/cnvdata/case_detail`
+
 const DataInfoFallback = {
     data_uuid: "",
     technology: "",

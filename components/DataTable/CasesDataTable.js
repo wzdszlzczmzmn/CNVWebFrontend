@@ -11,6 +11,7 @@ import { EyeOutlined } from "@ant-design/icons";
 import Chip from "@mui/material/Chip";
 import { Tooltip } from "@mui/material";
 import Box from "@mui/material/Box";
+import Link from 'next/link'
 
 const StyledTable = styled(Table)({
     '& .ant-table': {
@@ -349,7 +350,11 @@ const DataTable = ({
                 fixed: 'right',
                 align: 'center',
                 minWidth: '125px',
-                render: () => <DetailButton/>
+                render: (_, record) => (
+                    <Link href={`/cases/${record['case_id']}`}>
+                        <DetailButton/>
+                    </Link>
+                )
             }
         ];
     }, [filterInfo]);

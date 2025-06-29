@@ -1,114 +1,21 @@
-import {Container} from "@mui/material";
-import {fetcher, getDbStatsURL} from "data/get";
-import StatsIntro from "../components/Intro/StatsIntro";
-import FeaturesIntro from "../components/Intro/FeaturesIntro";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Grid from "@mui/material/Grid";
-import Image from "next/image";
-import Button from "@mui/material/Button";
-import MuiNextLink from "../components/Link";
-import RocketLaunchRoundedIcon from '@mui/icons-material/RocketLaunchRounded';
-import AnalyticsRoundedIcon from '@mui/icons-material/AnalyticsRounded';
-import Divider from "@mui/material/Divider";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import {useTheme} from "@mui/material/styles";
-import OneItemCenter from "../components/Layout/OneItemCenter";
-import Link from "@mui/material/Link";
+import { Container } from "@mui/material";
+import Introduction from "../components/app/Home/Introduction"
+import Features from "../components/app/Home/Features"
+import { Hr } from "../components/styledComponents/styledHTMLTags"
+import Stack from "@mui/material/Stack"
+import Statistic from "../components/app/Home/Statistic"
 
-
-const LinkButton = ({href, children, ...props}) => {
-    const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down('sm'))
-
-    return <MuiNextLink href={href}>
-        <Button variant="contained"
-                size={matches ? "medium" : "large"}
-                disableElevation
-                sx={{
-                    textTransform: 'none',
-                }}
-                {...props}
-        >
-            {children}
-        </Button>
-    </MuiNextLink>
-}
-
-
-const Home = ({dbStats}) => {
-    const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down('sm'), {noSsr: true})
-
+const Home = () => {
     return (
         <Container component="section" maxWidth="xl">
-
-            {/*<Grid container direction="row" justifyContent="center"*/}
-            {/*      alignItems="center" spacing={1} sx={{*/}
-            {/*    py: 4,*/}
-            {/*    mb: 2,*/}
-            {/*}}>*/}
-            {/*    <Grid item xs={10} md={6}>*/}
-            {/*        <Stack spacing={2}>*/}
-            {/*            <Typography variant="h2" fontFamily="Plus Jakarta Sans"*/}
-            {/*                        color="grass" fontWeight="700">Exploring*/}
-            {/*                Spatial*/}
-            {/*                Omics</Typography>*/}
-            {/*            <Typography variant={matches ? "body1" : "h6"}*/}
-            {/*                        fontWeight="400">*/}
-            {/*                {"The spatial omics database and online analysis platform for biologists." +*/}
-            {/*                    "Visualize spatial omics data at any scale and " +*/}
-            {/*                    "run spatial analysis with zero code."}*/}
-            {/*            </Typography>*/}
-            {/*            <Typography>*/}
-            {/*                {"Read our publication on "}*/}
-            {/*                <Link href="https://doi.org/10.1093/nar/gkac874">*/}
-            {/*                <span style={{fontStyle: "italic"}}>*/}
-            {/*                    {"Nucleic Acids Research"}*/}
-            {/*                    </span>*/}
-            {/*                </Link>*/}
-            {/*            </Typography>*/}
-            {/*            <Stack direction="row" spacing={2}>*/}
-            {/*                <LinkButton href="/view" startIcon={*/}
-            {/*                    <RocketLaunchRoundedIcon/>}>Explore</LinkButton>*/}
-            {/*                <LinkButton href="/analysis" startIcon={*/}
-            {/*                    <AnalyticsRoundedIcon/>}>Analysis</LinkButton>*/}
-            {/*            </Stack>*/}
-            {/*        </Stack>*/}
-            {/*    </Grid>*/}
-            {/*    <Grid item xs={8} md={4}>*/}
-            {/*        <Image*/}
-            {/*            src={"/3d-tissue.png"}*/}
-            {/*            alt={"3d tissue"}*/}
-            {/*            layout={"responsive"}*/}
-            {/*            width={953}*/}
-            {/*            height={818}*/}
-            {/*            priority*/}
-            {/*        />*/}
-            {/*    </Grid>*/}
-
-            {/*</Grid>*/}
-            {/*<Divider/>*/}
-
-            {/*/!*<SectionIntro/>*!/*/}
-            {/*<OneItemCenter>*/}
-            {/*    <StatsIntro data={dbStats}/>*/}
-            {/*</OneItemCenter>*/}
-
-
-            {/*<FeaturesIntro/>*/}
+            <Stack>
+                <Introduction/>
+                <Hr/>
+                <Features/>
+                <Statistic/>
+            </Stack>
         </Container>
     )
-}
-
-export async function getStaticProps() {
-    const data = await fetcher(getDbStatsURL);
-
-    return {
-        props: {
-            dbStats: data
-        }
-    }
 }
 
 export default Home;

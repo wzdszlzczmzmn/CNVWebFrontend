@@ -214,26 +214,26 @@ export const CNVHeatMap = ({
                         hideTooltip={hideTooltip}
                     />
 
-                    <HclusterAvgCNVMatrix
-                        marginLeft={treeChartSetting.width + treeChartSetting.marginToHeatMap + metaChartSetting.offset + colorLegendSetting.width}
-                        paddingTop={wholeChartSetting.paddingTop + heatMapChartSetting.chromosomeLegendHeight +
-                            heatMapChartSetting.defaultHeight * data.totalFileNum +
-                            hclusterClassifiedChartSetting.paddingToHeatMap}
-                        hclusterInfoWidth={hclusterClassifiedChartSetting.hclusterInfoWidth}
-                        hclusterInfoHeight={hclusterClassifiedChartSetting.hclusterInfoHeight}
-                        colorScales={colorScales}
-                        blockWidth={heatMapChartSetting.blockWidth}
-                        blockGap={heatMapChartSetting.blockGap}
-                        CNVMatrixObject={data.CNVMatrixObject}
-                        CNVMetaObject={data.CNVMetaObject}
-                        metaHeaders={data.metaHeaders}
-                        binIndex={data.binIndex}
-                        chromosomeRange={chromosomeRange}
-                        headerBlockOffset={headerBlockOffset}
-                        showTooltip={showTooltip}
-                        hideTooltip={hideTooltip}
-                        getCNVColor={getCNVColor}
-                    />
+                    {/*<HclusterAvgCNVMatrix*/}
+                    {/*    marginLeft={treeChartSetting.width + treeChartSetting.marginToHeatMap + metaChartSetting.offset + colorLegendSetting.width}*/}
+                    {/*    paddingTop={wholeChartSetting.paddingTop + heatMapChartSetting.chromosomeLegendHeight +*/}
+                    {/*        heatMapChartSetting.defaultHeight * data.totalFileNum +*/}
+                    {/*        hclusterClassifiedChartSetting.paddingToHeatMap}*/}
+                    {/*    hclusterInfoWidth={hclusterClassifiedChartSetting.hclusterInfoWidth}*/}
+                    {/*    hclusterInfoHeight={hclusterClassifiedChartSetting.hclusterInfoHeight}*/}
+                    {/*    colorScales={colorScales}*/}
+                    {/*    blockWidth={heatMapChartSetting.blockWidth}*/}
+                    {/*    blockGap={heatMapChartSetting.blockGap}*/}
+                    {/*    CNVMatrixObject={data.CNVMatrixObject}*/}
+                    {/*    CNVMetaObject={data.CNVMetaObject}*/}
+                    {/*    metaHeaders={data.metaHeaders}*/}
+                    {/*    binIndex={data.binIndex}*/}
+                    {/*    chromosomeRange={chromosomeRange}*/}
+                    {/*    headerBlockOffset={headerBlockOffset}*/}
+                    {/*    showTooltip={showTooltip}*/}
+                    {/*    hideTooltip={hideTooltip}*/}
+                    {/*    getCNVColor={getCNVColor}*/}
+                    {/*/>*/}
                 </g>
             </svg>
 

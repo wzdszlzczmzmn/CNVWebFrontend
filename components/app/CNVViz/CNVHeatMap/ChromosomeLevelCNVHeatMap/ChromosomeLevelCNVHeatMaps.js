@@ -3,10 +3,8 @@ import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import { TabPanel } from '../../Layout/TabPanel'
-import Typography from "@mui/material/Typography"
 import useSWR from "swr"
-import { getProjectCNVInfoURL, fetcher, getProjectMetaInfoURL } from '/data/get'
-import CircularProgress from "@mui/material/CircularProgress";
+import { fetcher, getProjectMetaInfoURL } from '/data/get'
 import { useChartDynamicSetting, useDataSetting } from "../../../CustomHook/CNVVizCustomHooks/CNVHeatMapHook"
 import Stack from "@mui/material/Stack"
 import HeatMapLeftPanel from "../../Layout/HeatMapLeftPanel"

@@ -51,19 +51,19 @@ export const DataSettingPanel = ({
                 ]
                 : []
         ),
-        ...(handleClusterChange === null ?
-                []
-                :
-                [
-                    {
-                        key: "cluster",
-                        value: dataSetting.cluster,
-                        setValue: handleClusterChange,
-                        title: "Cluster:",
-                        valueList: Array.from({ length: 9 }, (_, i) => i + 2),
-                    }
-                ]
-        )
+        // ...(handleClusterChange === null ?
+        //         []
+        //         :
+        //         [
+        //             {
+        //                 key: "cluster",
+        //                 value: dataSetting.cluster,
+        //                 setValue: handleClusterChange,
+        //                 title: "Cluster:",
+        //                 valueList: Array.from({ length: 9 }, (_, i) => i + 2),
+        //             }
+        //         ]
+        // )
     ]
 
     return (

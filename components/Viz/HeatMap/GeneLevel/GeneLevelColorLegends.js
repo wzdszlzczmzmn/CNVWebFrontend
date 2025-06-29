@@ -49,47 +49,47 @@ export const GeneLevelColorLegends = (
                 legendMarginTop={legendHeight * 4}
             />
 
-            <ColorLegend
-                color={colorScales['e_PC1']}
-                title={"ePC1"}
-                width={legendWidth}
-                legendMarginTop={legendHeight * 5}
-            />
+            {/*<ColorLegend*/}
+            {/*    color={colorScales['e_PC1']}*/}
+            {/*    title={"ePC1"}*/}
+            {/*    width={legendWidth}*/}
+            {/*    legendMarginTop={legendHeight * 5}*/}
+            {/*/>*/}
 
-            <ColorLegend
-                color={colorScales['e_PC2']}
-                title={"ePC2"}
-                width={legendWidth}
-                legendMarginTop={legendHeight * 6}
-            />
+            {/*<ColorLegend*/}
+            {/*    color={colorScales['e_PC2']}*/}
+            {/*    title={"ePC2"}*/}
+            {/*    width={legendWidth}*/}
+            {/*    legendMarginTop={legendHeight * 6}*/}
+            {/*/>*/}
 
-            <ColorLegend
-                color={colorScales['e_TSNE1']}
-                title={"e_TSNE1"}
-                width={legendWidth}
-                legendMarginTop={legendHeight * 7}
-            />
+            {/*<ColorLegend*/}
+            {/*    color={colorScales['e_TSNE1']}*/}
+            {/*    title={"e_TSNE1"}*/}
+            {/*    width={legendWidth}*/}
+            {/*    legendMarginTop={legendHeight * 7}*/}
+            {/*/>*/}
 
-            <ColorLegend
-                color={colorScales['e_TSNE2']}
-                title={"e_TSNE2"}
-                width={legendWidth}
-                legendMarginTop={legendHeight * 8}
-            />
+            {/*<ColorLegend*/}
+            {/*    color={colorScales['e_TSNE2']}*/}
+            {/*    title={"e_TSNE2"}*/}
+            {/*    width={legendWidth}*/}
+            {/*    legendMarginTop={legendHeight * 8}*/}
+            {/*/>*/}
 
-            <ColorLegend
-                color={colorScales['e_UMAP1']}
-                title={"e_UMAP1"}
-                width={legendWidth}
-                legendMarginTop={legendHeight * 9}
-            />
+            {/*<ColorLegend*/}
+            {/*    color={colorScales['e_UMAP1']}*/}
+            {/*    title={"e_UMAP1"}*/}
+            {/*    width={legendWidth}*/}
+            {/*    legendMarginTop={legendHeight * 9}*/}
+            {/*/>*/}
 
-            <ColorLegend
-                color={colorScales['e_UMAP2']}
-                title={"e_UMAP2"}
-                width={legendWidth}
-                legendMarginTop={legendHeight * 10}
-            />
+            {/*<ColorLegend*/}
+            {/*    color={colorScales['e_UMAP2']}*/}
+            {/*    title={"e_UMAP2"}*/}
+            {/*    width={legendWidth}*/}
+            {/*    legendMarginTop={legendHeight * 10}*/}
+            {/*/>*/}
         </g>
     )
 }

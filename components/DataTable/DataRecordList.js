@@ -53,7 +53,7 @@ const DataRecordCard = ({record}) => {
                 <Stack direction="row" justifyContent="space-between" spacing={4} sx={{my: 2}}>
                     <StatsText count={record.case_num} unit={'Cases'}/>
                     <StatsText count={record.cnv_files} unit={'CNV Files'}/>
-                    <StatsText count={record.cnv_num} unit={'CNV Records'}/>
+                    <StatsText count={record.cnv_num} unit={'CNV Type'}/>
                 </Stack>
 
                 <Grid container direction="row" spacing={2} alignItems="center">

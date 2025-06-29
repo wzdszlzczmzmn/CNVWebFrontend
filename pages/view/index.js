@@ -1,5 +1,5 @@
-import {fetcher, getRecordsURL} from "data/get";
-import {Container} from "@mui/material";
+import { fetcher, getRecordsURL } from "data/get";
+import { Container } from "@mui/material";
 import Head from 'next/head';
 import RecordsPanel from "../../components/Intro/RecordsPanel";
 import Typography from "@mui/material/Typography";
@@ -11,10 +11,10 @@ const ViewPage = ({ recordData }) => {
             <Head>
                 <title>Browse</title>
             </Head>
-                <Container maxWidth={"xl"} sx={{my: 4, display: 'flex', justifyContent: 'center' }}>
-                    <Typography variant="h3" sx={{ mx: 2 }} fontFamily='Plus Jakarta Sans'>Datasets</Typography>
-                </Container>
-                <RecordsPanel data={recordData}/>
+            <Container maxWidth={"xl"} sx={{ my: 4, display: 'flex', justifyContent: 'center' }}>
+                <Typography variant="h3" sx={{ mx: 2 }} fontFamily='Plus Jakarta Sans'>Datasets</Typography>
+            </Container>
+            <RecordsPanel data={recordData}/>
         </>
 
     )

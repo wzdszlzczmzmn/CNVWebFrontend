@@ -1,8 +1,6 @@
-import Head from "next/head";
-import {Container} from "@mui/material";
 import useSWR from "swr";
-import {fetcher, getDiseaseAndSitesDataURL} from "/data/get"
-import {useEffect, useRef, useState} from "react";
+import { fetcher, getDiseaseAndSitesDataURL } from "/data/get"
+import { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 
 const processDiseasesAndSitesData = (data) => {
@@ -49,7 +47,7 @@ const processDiseasesAndSitesData = (data) => {
 }
 
 const DiseasesAndSitesChart = () => {
-    const {data, error} = useSWR(getDiseaseAndSitesDataURL, fetcher)
+    const { data, error } = useSWR(getDiseaseAndSitesDataURL, fetcher)
     const [allLevelData, setAllLevelData] = useState(null)
 
     const chartRef = useRef(null)
@@ -59,8 +57,6 @@ const DiseasesAndSitesChart = () => {
             setAllLevelData(processDiseasesAndSitesData(data))
         }
     }, [data]);
-
-    console.log(allLevelData)
 
     useEffect(() => {
         if (allLevelData) {
@@ -87,11 +83,14 @@ const DiseasesAndSitesChart = () => {
                 if (dataCategory === 'Project') {
                     projectTitle = 'Number of CNV Files for All Projects'
                 } else if (dataCategory === 'Disease') {
-                    projectTitle = `Number of CNV Files for All Diseases in the ${data[0][5]} Project`
+                    projectTitle = `Number of CNV Files for All Diseases`
+                     // `in the ${data[0][5]} Project`
                 } else if (dataCategory === 'PrimarySite') {
-                    projectTitle = `Number of CNV Files for All Primary Sites of ${data[0][5]} Disease`
+                    projectTitle = `Number of CNV Files for All Primary Sites`
+                     // `of ${data[0][5]} Disease`
                 } else if (dataCategory === 'PrimarySiteDetail') {
-                    projectTitle = `Number of CNV Files for Each Type in ${data[0][5]} Primary Site`
+                    projectTitle = `Number of CNV Files for Each Type`
+                     // `in ${data[0][5]} Primary Site`
                 }
 
                 allOptions[optionId] = {
@@ -100,7 +99,7 @@ const DiseasesAndSitesChart = () => {
                         text: projectTitle,
                         textStyle: {
                             fontWeight: 'bold',
-                            fontSize: '28',
+                            fontSize: '18',
                             width: '1200',
                             overflow: 'truncate',
                             ellipsis: '...'
@@ -110,7 +109,10 @@ const DiseasesAndSitesChart = () => {
                     },
                     grid: {
                         top: '15%',
-                        bottom: '18%'
+                        bottom: '10%',
+                        left: '3%',
+                        right: '3%',
+                        containLabel: true
                     },
                     tooltip: {
                         trigger: 'axis',
@@ -190,7 +192,7 @@ const DiseasesAndSitesChart = () => {
                     graphic: [
                         {
                             type: 'text',
-                            left: 50,
+                            left: 30,
                             top: 20,
                             style: {
                                 text: 'Back',
@@ -231,18 +233,15 @@ const DiseasesAndSitesChart = () => {
                 }
             });
             option && chartInstance.setOption(option);
+
+            return () => {
+                chartInstance.dispose();
+            }
         }
     })
 
     return (
-        <>
-            <Head>
-                <title>Diseases And Sites Viz</title>
-            </Head>
-            <Container maxWidth={'xl'}>
-                <div ref={chartRef} style={{width: '100%', height: '600px'}}/>
-            </Container>
-        </>
+        <div ref={chartRef} style={{ width: '100%', height: '600px' }}/>
     )
 }
 

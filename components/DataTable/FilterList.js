@@ -250,10 +250,22 @@ const FilterList = ({data, updateDataFn}) => {
                 <Stack direction="row" spacing={6}>
                     {
                         ['program', 'disease type', 'primary site', 'experimental strategy'].map((f, i) => {
-                            return <FilterGroup field={f} title={f} counter={dataCounter[f]}
-                                                filter={filter} showLess={showLess} checkedList={checkedList} key={i}
-                                                updateOnChange={updateOnChange}
-                            />
+                            const sortedCounter = Object.fromEntries(
+                                Object.entries(dataCounter[f] || {}).sort(([aKey], [bKey]) => aKey.localeCompare(bKey))
+                            );
+
+                            return (
+                                <FilterGroup
+                                    key={i}
+                                    field={f}
+                                    title={f}
+                                    counter={sortedCounter}
+                                    filter={filter}
+                                    showLess={showLess}
+                                    checkedList={checkedList}
+                                    updateOnChange={updateOnChange}
+                                />
+                            );
                         })
                     }
                 </Stack>

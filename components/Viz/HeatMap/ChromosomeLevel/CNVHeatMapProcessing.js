@@ -241,29 +241,29 @@ export const createColorScales = (metaRanges, CNVBaseline) => {
         .domain(metaRanges['hcluster'].sort((a, b) => Number(a) - Number(b)))
         .range(d3.schemeCategory10)
 
-    const ePC1ColorScale = d3.scaleSequential()
-        .domain(metaRanges['e_PC1'])
-        .interpolator(d3.interpolateRgb('#c4a1d3', '#ad49e1'))
-
-    const ePC2ColorScale = d3.scaleSequential()
-        .domain(metaRanges['e_PC2'])
-        .interpolator(d3.interpolateRgb('#52b199', '#0d7c66'))
-
-    const eTSNE1ColorScale = d3.scaleSequential()
-        .domain(metaRanges['e_TSNE1'])
-        .interpolator(d3.interpolateRgb('#d88f92', '#c63c51'))
-
-    const eTSNE2ColorScale = d3.scaleSequential()
-        .domain(metaRanges['e_TSNE2'])
-        .interpolator(d3.interpolateRgb('#bad9ff', '#3572ef'))
-
-    const eUMAP1ColorScale = d3.scaleSequential()
-        .domain(metaRanges['e_UMAP1'])
-        .interpolator(d3.interpolateRgb('#ffa699', '#ff7f3e'))
-
-    const eUMAP2ColorScale = d3.scaleSequential()
-        .domain(metaRanges['e_UMAP2'])
-        .interpolator(d3.interpolateRgb('#f0e8fa', '#FF76CE'))
+    // const ePC1ColorScale = d3.scaleSequential()
+    //     .domain(metaRanges['e_PC1'])
+    //     .interpolator(d3.interpolateRgb('#c4a1d3', '#ad49e1'))
+    //
+    // const ePC2ColorScale = d3.scaleSequential()
+    //     .domain(metaRanges['e_PC2'])
+    //     .interpolator(d3.interpolateRgb('#52b199', '#0d7c66'))
+    //
+    // const eTSNE1ColorScale = d3.scaleSequential()
+    //     .domain(metaRanges['e_TSNE1'])
+    //     .interpolator(d3.interpolateRgb('#d88f92', '#c63c51'))
+    //
+    // const eTSNE2ColorScale = d3.scaleSequential()
+    //     .domain(metaRanges['e_TSNE2'])
+    //     .interpolator(d3.interpolateRgb('#bad9ff', '#3572ef'))
+    //
+    // const eUMAP1ColorScale = d3.scaleSequential()
+    //     .domain(metaRanges['e_UMAP1'])
+    //     .interpolator(d3.interpolateRgb('#ffa699', '#ff7f3e'))
+    //
+    // const eUMAP2ColorScale = d3.scaleSequential()
+    //     .domain(metaRanges['e_UMAP2'])
+    //     .interpolator(d3.interpolateRgb('#f0e8fa', '#FF76CE'))
 
     const colorScales =  {
         'CNVLow': colorScaleLow,
@@ -273,12 +273,12 @@ export const createColorScales = (metaRanges, CNVBaseline) => {
         'ethnicity': ethnicityColorScale,
         'race': raceColorScale,
         'hcluster': hclusterColorScale,
-        'e_PC1': ePC1ColorScale,
-        'e_PC2': ePC2ColorScale,
-        'e_TSNE1': eTSNE1ColorScale,
-        'e_TSNE2': eTSNE2ColorScale,
-        'e_UMAP1': eUMAP1ColorScale,
-        'e_UMAP2': eUMAP2ColorScale
+        // 'e_PC1': ePC1ColorScale,
+        // 'e_PC2': ePC2ColorScale,
+        // 'e_TSNE1': eTSNE1ColorScale,
+        // 'e_TSNE2': eTSNE2ColorScale,
+        // 'e_UMAP1': eUMAP1ColorScale,
+        // 'e_UMAP2': eUMAP2ColorScale
     }
 
     const getCNVColor = (value) => {

@@ -15,7 +15,9 @@ import { GeneLevelColorLegends } from "./GeneLevelColorLegends"
 import useGeneCNVHeatMapVizSettingStore from "../../../../stores/GeneCNVHeatMapVizSettingStore"
 
 const metaFields =
-    ['gender', 'vital status', 'ethnicity', 'race', 'e_PC1', 'e_PC2', 'e_TSNE1', 'e_TSNE2', 'e_UMAP1', 'e_UMAP2']
+    ['gender', 'vital status', 'ethnicity', 'race',
+        // 'e_PC1', 'e_PC2', 'e_TSNE1', 'e_TSNE2', 'e_UMAP1', 'e_UMAP2'
+    ]
 
 const GeneLevelCNVHeatMapContainer = ({
     CNVMatrix,

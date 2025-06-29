@@ -4,16 +4,14 @@ import Toolbar from "@mui/material/Toolbar";
 import MuiNextLink from "components/Link";
 import Navbar from "components/Navbar";
 import SideDrawer from "components/SideDrawer";
-import HideOnScroll from "components/HideOnScroll";
 import Image from "next/image";
 
 export const navLinks = [
     { title: "Home", path: "/" },
     { title: "Dataset", path: "/view" },
-    // { title: "Publication", path: "/" },
-    // { title: "Analysis", path: "/" },
-    // { title: "Tutorial", path: "/" },
-    // { title: "About", path: "/" },
+    { title: 'Analysis', path: "/analysis" },
+    { title: 'Workspace', path: "/workspace" },
+    { title: 'Contact', path: '/contact' }
 ]
 
 const Header = () => {
@@ -34,9 +32,8 @@ const Header = () => {
                             maxWidth={'xl'}
                             sx={{ display: `flex`, justifyContent: `space-between` }}
                         >
-                            {/*<IconButton edge="start" aria-label="home">*/}
-                            <MuiNextLink activeClassName="active" href="/" sx={{ mt: 1 }}>
-                                {/*<Image src="/AQUILA-LOGO.svg" width="113" height="45" aria-label="Home" alt="Logo"/>*/}
+                            <MuiNextLink activeClassName="active" href="/" sx={{ mt: '12px' }}>
+                                <Image src="/CNVScopeLogo.png" width="175" height="40" aria-label="Home" alt="Logo"/>
                             </MuiNextLink>
 
                             {/*</IconButton>*/}

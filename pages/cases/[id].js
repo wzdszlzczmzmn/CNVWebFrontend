@@ -9,6 +9,7 @@ import ErrorView from "../../components/StateViews/ErrorView"
 import Stack from "@mui/material/Stack"
 import CaseClinicalWrapper from "../../components/app/Cases/Clinical/CaseClinicalWrapper"
 import CaseBiospecimenWrapper from "../../components/app/Cases/Biospecimen/CaseBiospecimenWrapper"
+import CaseCNVFileWrapper from "../../components/app/Cases/CNVFile/CaseCNVFileWrapper"
 
 const CaseDetail = () => {
     const router = useRouter()
@@ -30,6 +31,8 @@ const CaseDetail = () => {
         return <ErrorView/>
     }
 
+    console.log(data)
+
     return (
         <>
             <Head>
@@ -40,6 +43,7 @@ const CaseDetail = () => {
                     <CaseSummary data={data}/>
                     <CaseClinicalWrapper data={data}/>
                     <CaseBiospecimenWrapper data={data} />
+                    <CaseCNVFileWrapper data={data}/>
                 </Stack>
             </Container>
         </>

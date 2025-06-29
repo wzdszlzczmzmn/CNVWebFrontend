@@ -1,8 +1,5 @@
 import {
-    fetcher,
-    getOneRecordURL,
-    useDataInfo,
-    getCNVProjectIdURL, getProjectCNVInfoURL,
+    fetcher, getCNVProjectIdURL, getProjectCNVInfoURL,
 } from "data/get";
 import { Container } from "@mui/material";
 import React, { useState } from "react";
@@ -32,11 +29,10 @@ import MemoRecurrentEventsContainer from "../../components/app/CNVViz/RecurrentE
 import MemoRecurrentRegionsContainer from "../../components/app/CNVViz/RecurrentRegions/RecurrentRegionsContainer"
 
 
-const DetailsPage = ({ id, initRecordData }) => {
+const DetailsPage = ({ id }) => {
     const [statisticsDataType, setStatisticsDataType] = useState("Disease Attribute")
     const [selectedItem, setSelectedItem] = useState('Disease Type');
 
-    const { data: recordData } = useDataInfo(id, initRecordData);
 
     const {
         data: projectCNVInfo,
@@ -125,10 +121,10 @@ const DetailsPage = ({ id, initRecordData }) => {
                     <MemoGeneLevelCNVHeatMaps projectId={id}/>
                 </Stack>
 
-                <Stack sx={{ mt: 4 }}>
-                    <Typography variant="h5" sx={{ ml: 1, mb: 2 }}>Embedding Analyse Visualization</Typography>
-                    <MemoEmbeddingAnalyseContainer projectId={id} cnvTypes={cnvTypes}/>
-                </Stack>
+                {/*<Stack sx={{ mt: 4 }}>*/}
+                {/*    <Typography variant="h5" sx={{ ml: 1, mb: 2 }}>Embedding Analyse Visualization</Typography>*/}
+                {/*    <MemoEmbeddingAnalyseContainer projectId={id} cnvTypes={cnvTypes}/>*/}
+                {/*</Stack>*/}
 
                 <Stack sx={{ mt: 4 }}>
                     <Typography variant="h5" sx={{ ml: 1, mb: 2 }}>Ploidy Stairstep</Typography>
@@ -174,14 +170,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-    const RecordURL = `${getOneRecordURL}/${params.id}`;
-
-    const recordData = await fetcher(RecordURL);
-
     return {
         props: {
-            id: params.id,
-            initRecordData: recordData,
+            id: params.id
         },
     }
 }

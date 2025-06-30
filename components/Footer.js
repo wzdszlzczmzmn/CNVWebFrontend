@@ -13,8 +13,8 @@ const Footer = () => {
             <Container maxWidth="xl">
                 <Hr sx={{marginBottom: '24px'}}/>
                 <Grid container>
-                    <Grid xs={1}/>
-                    <Grid xs={6}>
+                    <Grid item xs={1}/>
+                    <Grid item xs={6}>
                         <Stack spacing={2}>
                             <H6 sx={{fontSize: '24px', paddingBottom: '6px'}}>
                                 Contact us
@@ -35,8 +35,8 @@ const Footer = () => {
                             </Stack>
                         </Stack>
                     </Grid>
-                    <Grid xs={1.5}/>
-                    <Grid xs={3}>
+                    <Grid item xs={1.5}/>
+                    <Grid item xs={3}>
                         <Stack sx={{fontSize: '16px'}} spacing={2}>
                             <Img
                                 src="/bms_logo.svg"

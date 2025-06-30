@@ -1,9 +1,9 @@
-import { Button, Card, Modal, Result, Typography } from "antd"
+import {Button, Card, Modal, Result, Typography, message, Form, Space, Input, InputNumber, Select, Upload} from "antd"
 import Stack from "@mui/material/Stack"
-import SubmitForm from "./AnalysisForm"
+import SubmitForm, {RunDemoModal} from "./AnalysisForm"
 import { useState } from "react"
 import { useRouter } from "next/router"
-import { CheckCircleFilled, CloseCircleFilled, CopyOutlined } from "@ant-design/icons"
+import {CheckCircleFilled, CloseCircleFilled, CopyOutlined, UploadOutlined} from "@ant-design/icons"
 import { Span } from "../../styledComponents/styledHTMLTags"
 import Box from "@mui/material/Box"
 
@@ -26,7 +26,20 @@ const AnalysisContainer = ({}) => {
         <>
             <Stack alignItems="center" spacing={6}>
                 <Card
-                    title={<Title level={2}>Recurrent CNV Analysis Submission</Title>}
+                    title={
+                    <Stack spacing={4} direction='row' alignItems='center'>
+                        <Title level={2}>Recurrent CNV Analysis Submission</Title>
+                        <Stack spacing={2} direction='row'>
+                            <Button
+                                type='primary'
+                                onClick={() => setDemoModalOpen(true)}
+                            >
+                                Run Demo
+                            </Button>
+                            <Button>View Demo Result</Button>
+                        </Stack>
+                    </Stack>
+                }
                     style={{
                         width: '1080px',
                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
@@ -44,6 +57,14 @@ const AnalysisContainer = ({}) => {
                     />
                 </Card>
             </Stack>
+            <RunDemoModal
+                isDemoModalOpen={isDemoModalOpen}
+                setIsDemoModalOpen={setDemoModalOpen}
+                setSubmissionStatus={setSubmissionStatus}
+                setTaskName={setTaskName}
+                setTaskUUID={setTaskUUID}
+                setIsModelOpen={setIsModelOpen}
+            />
             <ResultModal
                 isModalOpen={isModalOpen}
                 setIsModelOpen={setIsModelOpen}

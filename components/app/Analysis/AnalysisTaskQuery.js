@@ -5,6 +5,8 @@ import { H6, Span } from "../../styledComponents/styledHTMLTags"
 import { SearchOutlined } from "@ant-design/icons"
 import axios from "axios"
 import { useState } from "react"
+import {getGISTICTaskURL} from "../../../data/get";
+import {useRouter} from "next/router";
 
 const TaskQuery = ({}) => {
     const [taskUUID, setTaskUUID] = useState("");
@@ -16,7 +18,7 @@ const TaskQuery = ({}) => {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`${''}`, {
+            const response = await axios.get(`${getGISTICTaskURL}`, {
                 params: {
                     taskUUID: taskUUID
                 }
@@ -64,7 +66,7 @@ const TaskQuery = ({}) => {
                     style={{
                         borderRadius: '18px',
                     }}
-                    // onClick={handleSearch}
+                    onClick={handleSearch}
                 >
                     Search
                 </Button>
@@ -106,7 +108,7 @@ const TaskDetail = ({taskInformation, handleSearch}) => {
     const router = useRouter()
 
     const handleNavigate = () => {
-        router.push(`/result?resultId=${taskInformation.uuid}`)
+        router.push(`/analysis/result/${taskInformation.uuid}`)
     }
 
     return (
@@ -210,9 +212,22 @@ const generateTaskInformationItems = (taskInformation) => {
     })
 
     taskInformationItems.push({
-        key: 'TaskType',
-        label: 'Task Type',
-        children: typeMap[taskInformation['type']],
+        key: 'broad_len_cutoff',
+        label: 'broad_len_cutoff',
+        children: taskInformation['brlen'],
+        span: 1
+    })
+    taskInformationItems.push({
+        key: 'conf_level',
+        label: 'conf_level',
+        children: taskInformation['conf'],
+        span: 1
+    })
+
+    taskInformationItems.push({
+        key: 'RefGenome',
+        label: 'Ref Genome',
+        children: taskInformation['ref_genome'],
         span: 2
     })
 
@@ -229,53 +244,6 @@ const generateTaskInformationItems = (taskInformation) => {
         children: taskInformation['finish_time'],
         span: 1
     })
-
-    taskInformationItems.push({
-        key: 'GroupName',
-        label: 'Group Name',
-        children: taskInformation['group_name'],
-        span: 1
-    })
-
-    if (taskInformation.type === 'B') {
-        taskInformationItems.push({
-            key: 'K',
-            label: 'K',
-            children: taskInformation['k'],
-            span: 1
-        })
-        taskInformationItems.push({
-            key: 'TH',
-            label: 'TH',
-            children: taskInformation['th'],
-            span: 1
-        })
-        taskInformationItems.push({
-            key: 'Group',
-            label: 'Group',
-            children: taskInformation['grp'],
-            span: 1
-        })
-    } else if (taskInformation.type === 'C') {
-        taskInformationItems.push({
-            key: 'Reward',
-            label: 'Reward',
-            children: taskInformation['reward'],
-            span: 1
-        })
-        taskInformationItems.push({
-            key: 'Penalty',
-            label: 'Penalty',
-            children: taskInformation['penalty'],
-            span: 1
-        })
-        taskInformationItems.push({
-            key: 'Group',
-            label: 'Group',
-            children: taskInformation['grp'],
-            span: 1
-        })
-    }
 
     return taskInformationItems
 }

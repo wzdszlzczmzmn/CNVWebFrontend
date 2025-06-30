@@ -45,6 +45,9 @@ export const getRecurrentEventsEachPageRenderURL = `${root}/cnvdata/Recurrent-Ev
 
 export const getCaseSummaryDetailURL = `${root}/cnvdata/case_detail`
 
+export const getGISTICTaskURL = `${root}/analysis/gistic_task_query`
+export const getGISTICDemoDataURL = `${root}/analysis/gistic_demo_data_download`
+
 const DataInfoFallback = {
     data_uuid: "",
     technology: "",

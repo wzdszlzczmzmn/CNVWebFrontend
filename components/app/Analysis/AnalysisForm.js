@@ -1,10 +1,11 @@
-import { Button, Form, Input, Space, Upload, Select, InputNumber, Tooltip, Card, Typography } from "antd"
+import {Button, Form, Input, Space, Upload, Select, InputNumber, Tooltip, Modal} from "antd"
 import { Div, Span } from "../../styledComponents/styledHTMLTags"
 import Stack from "@mui/material/Stack"
 import { DownloadOutlined, UploadOutlined } from "@ant-design/icons"
 import { useState } from "react"
 import axios from "axios"
-import { postGISTICTaskURL } from "../../../data/post"
+import {postGISTICDemoTaskURL, postGISTICTaskURL} from "../../../data/post"
+import {getGISTICDemoDataURL} from "../../../data/get";
 
 const SubmitForm = ({ setTaskUUID, setSubmissionStatus, setTaskName, setIsModelOpen }) => {
     const [expressionMatrixFileList, setExpressionMatrixFileList] = useState([])
@@ -33,11 +34,6 @@ const SubmitForm = ({ setTaskUUID, setSubmissionStatus, setTaskName, setIsModelO
         formData.append('ref', values.refGenome)
         formData.append('expressionMatrixFile', expressionMatrixFileList[0], 'segment.txt')
         formData.append('groupInformationFile', groupInformationFileList[0], 'marker.txt')
-
-        for (let pair of formData.entries()) {
-            console.log(`${pair[0]}:`, pair[1])
-        }
-
 
         try {
             const response = await axios.post(postGISTICTaskURL, formData, {
@@ -205,8 +201,8 @@ const SubmitForm = ({ setTaskUUID, setSubmissionStatus, setTaskName, setIsModelO
                         <CustomFormLabelWithDownload
                             text="Segmentation File"
                             toolTipTitle="Click to Download Demo Segmentation File."
-                            file="expressionMatrix"
-                            fileName="demo_expression_matrix.csv"
+                            file="segment.txt"
+                            fileName="demo_segment.txt"
                         />
                     }
                     valuePropName="expressionMatrixFileList"
@@ -248,8 +244,8 @@ const SubmitForm = ({ setTaskUUID, setSubmissionStatus, setTaskName, setIsModelO
                         <CustomFormLabelWithDownload
                             text="Markers File"
                             toolTipTitle="Click to Download Demo Markers File."
-                            file="groupInformation"
-                            fileName="demo_group_information.csv"
+                            file="markers.txt"
+                            fileName="demo_markers.txt"
                         />
                     }
                     valuePropName="groupInformationFileList"
@@ -320,6 +316,304 @@ const SubmitForm = ({ setTaskUUID, setSubmissionStatus, setTaskName, setIsModelO
     );
 }
 
+export const RunDemoModal = ({
+                          isDemoModalOpen,
+                          setIsDemoModalOpen,
+                          setTaskUUID,
+                          setSubmissionStatus,
+                          setTaskName,
+                          setIsModelOpen
+                      }) => {
+    const [demoForm] = Form.useForm()
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const showModal = () => {
+        setIsModelOpen(true)
+    }
+
+    const handleClose = () => {
+        setIsDemoModalOpen(false)
+    }
+
+    const onFinish = async (values) => {
+        setIsSubmitting(true)
+        try {
+            const response = await axios.post(postGISTICDemoTaskURL, {}, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                timeout: 600000
+            })
+            onReset()
+            setSubmissionStatus(true)
+            setTaskUUID(response.data?.uuid)
+            setTaskName(values.taskName)
+            setIsSubmitting(false)
+            showModal()
+        } catch (error) {
+            setSubmissionStatus(false)
+            setIsSubmitting(false)
+            showModal()
+        }
+    }
+
+    const onReset = () => {
+        demoForm.resetFields()
+    }
+
+    return (
+        <Modal
+            title={
+                <Stack sx={{alignItems: 'center'}}>
+                    <Span sx={{fontSize: '32px', paddingTop: '8px', paddingBottom: '16px'}}>
+                        <Span>Run Demo</Span>
+                    </Span>
+                </Stack>
+            }
+            open={isDemoModalOpen}
+            footer={null}
+            centered
+            width={900}
+            onCancel={handleClose}
+        >
+            <Form
+                form={demoForm}
+                size="large"
+                layout="horizontal"
+                labelCol={{
+                    span: 10,
+                }}
+                wrapperCol={{
+                    span: 12,
+                }}
+                onFinish={onFinish}
+            >
+                <Form.Item
+                    label={<CustomFormLabel text="Task Name"/>}
+                    required
+                    tooltip="User-defined task name."
+                >
+                    <Space align="baseline" size={48}>
+                        <Form.Item
+                            name="taskName"
+                            initialValue='Demo'
+                            noStyle
+                            hasFeedback
+                            rules={[
+                                {
+                                    type: 'string',
+                                    max: 128,
+                                    min: 1,
+                                    required: true,
+                                    message: 'Task Name is required',
+                                },
+                            ]}
+                        >
+                            <Input
+                                disabled
+                                style={{
+                                    width: 300,
+                                }}
+                                placeholder="Please input"
+                            />
+                        </Form.Item>
+                    </Space>
+                </Form.Item>
+
+                <Form.Item
+                    noStyle
+                    shouldUpdate={(prevValues, currentValues) => prevValues.taskType !== currentValues.taskType}
+                >
+                    <Form.Item
+                        name="brlen"
+                        label={<CustomFormLabel text="broad_len_cutoff"/>}
+                        initialValue={0.5}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'broad_len_cutoff is required.',
+                            },
+                            {
+                                validator(_, value) {
+                                    if (typeof value !== 'number' || isNaN(value)) {
+                                        return Promise.reject(new Error('Value must be a number.'));
+                                    }
+                                    if (value <= 0 || value >= 1) {
+                                        return Promise.reject(new Error('Value must be between 0 and 1 (exclusive).'));
+                                    }
+                                    return Promise.resolve();
+                                },
+                            },
+                        ]}
+                        tooltip="Threshold used to distinguish broad from focal events, given in units of fraction of chromosome arm."
+                    >
+                        <InputNumber
+                            controls={false}
+                            disabled
+                            style={{
+                                width: '300px'
+                            }}
+                        />
+                    </Form.Item>
+                </Form.Item>
+
+                <Form.Item
+                    noStyle
+                    shouldUpdate={(prevValues, currentValues) => prevValues.taskType !== currentValues.taskType}
+                >
+                    <Form.Item
+                        name="conf"
+                        label={<CustomFormLabel text="conf_level"/>}
+                        initialValue={0.90}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Confidence level is required.',
+                            },
+                            {
+                                validator(_, value) {
+                                    if (typeof value !== 'number' || isNaN(value)) {
+                                        return Promise.reject(new Error('Value must be a valid number.'));
+                                    }
+                                    if (value <= 0 || value >= 1) {
+                                        return Promise.reject(
+                                            new Error('Value must be between 0 and 1 (exclusive).')
+                                        );
+                                    }
+                                    return Promise.resolve();
+                                },
+                            },
+                        ]}
+                        tooltip="Confidence level used to calculate the region containing a driver."
+                    >
+                        <InputNumber
+                            disabled
+                            controls={false}
+                            style={{
+                                width: '300px'
+                            }}
+                        />
+                    </Form.Item>
+                </Form.Item>
+
+                <Form.Item
+                    label={<CustomFormLabel text="Reference Genome"/>}
+                    initialValue='hg38'
+                    name="refGenome"
+                    hasFeedback
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Reference Genome is required',
+                        },
+                    ]}
+                    tooltip="Used by GISTIC to map genomic regions based on the selected reference genome (hg19 or hg38)."
+                >
+                    <Select
+                        disabled
+                        style={{
+                            width: '300px'
+                        }}
+                    >
+                        <Select.Option value="hg38">hg38</Select.Option>
+                        <Select.Option value="hg19">hg19</Select.Option>
+                    </Select>
+                </Form.Item>
+
+                <Form.Item
+                    name="expressionMatrixFile"
+                    label={
+                        <CustomDemoFormLabel
+                            text="Segmentation File"
+                        />
+                    }
+                    valuePropName="expressionMatrixFileList"
+                    required
+                    tooltip=".txt, The segmentation file contains the segmented data for all the samples identified by GLAD, CBS, or some other segmentation algorithm. (See GLAD file format in the Genepattern file formats documentation.) It is a six column, tab-delimited file with an optional first line identifying the columns. Positions are in base pair units."
+                >
+                    <DemoDataFileDownloadButton
+                        text='Download Demo Segmentation File'
+                        file='segment.txt'
+                        fileName='demo_segment.txt'
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    name="groupInformationFile"
+                    label={
+                        <CustomDemoFormLabel
+                            text="Markers File"
+                        />
+                    }
+                    valuePropName="groupInformationFileList"
+                    required
+                    tooltip=".txt, The markers file identifies the marker positions used in the original dataset (before segmentation) for array or capture experiments. As of GISTIC release 2.0.23, the markers file is an optional input - if omitted, pseudo markers are generated as uniformly as possible using the maxspace input parameter."
+                >
+                    <DemoDataFileDownloadButton
+                        text='Download Demo Markers File'
+                        file='markers.txt'
+                        fileName='demo_markers.txt'
+                    />
+                </Form.Item>
+
+                <Form.Item label={null}>
+                    <Stack
+                        direction="row"
+                        sx={{
+                            justifyContent: "end",
+                            paddingTop: '16px',
+                        }}
+                        spacing={12}
+                    >
+                        <Button
+                            type="primary"
+                            size="large"
+                            htmlType="submit"
+                            loading={isSubmitting}
+                            style={{ width: '150px' }}
+                        >
+                            Run
+                        </Button>
+                    </Stack>
+                </Form.Item>
+            </Form>
+        </Modal>
+    )
+}
+
+const CustomDemoFormLabel = ({text}) => {
+    return (
+        <Span sx={{fontSize: 20}}>
+            {text}
+        </Span>
+    )
+}
+
+const DemoDataFileDownloadButton = ({file, text, fileName, type = "outlined"}) => {
+    const handleDownload = () => {
+        const fileUrl = `${getGISTICDemoDataURL}?file=${file}`;
+
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = fileName;
+        link.click();
+    }
+
+    return (
+        <Button
+            color="default"
+            icon={<DownloadOutlined/>}
+            variant={type}
+            onClick={() => handleDownload()}
+            style={{
+                width: '300px'
+            }}
+        >
+            {text}
+        </Button>
+    )
+}
+
 const CustomFormLabel = ({ text }) => {
     return (
         <Span sx={{ fontSize: 24 }}>
@@ -332,9 +626,9 @@ const CustomFormLabelWithDownload = ({ text, toolTipTitle, file, fileName }) => 
     const handleDownload = (e) => {
         e.preventDefault()
 
-        const fileUrl = `${''}?demoType=CCLE&file=${file}`;
+        const fileUrl = `${getGISTICDemoDataURL}?file=${file}`
 
-        const link = document.createElement('a');
+        const link = document.createElement('a')
         link.href = fileUrl;
         link.download = fileName;
         link.click();
@@ -353,7 +647,7 @@ const CustomFormLabelWithDownload = ({ text, toolTipTitle, file, fileName }) => 
                     style={{
                         fontSize: '14px',
                     }}
-                    // onClick={handleDownload}
+                    onClick={handleDownload}
                 />
             </Tooltip>
         </Stack>

@@ -7,3 +7,4 @@ export const postPloidyStairstepRenderURL = `${root}/cnvdata/Ploidy-Stairstep-re
 export const postEmbeddingAnalyseRenderURL = `${root}/cnvdata/Embedding-Analyse-render`
 
 export const postGISTICTaskURL = `${root}/analysis/gistic_task_submit`
+export const postGISTICDemoTaskURL = `${root}/analysis/gistic_run_demo`

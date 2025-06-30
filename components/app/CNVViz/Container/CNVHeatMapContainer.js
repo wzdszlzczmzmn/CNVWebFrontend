@@ -4,7 +4,7 @@ import {
     fetcherCSV,
     getCNVCutURL,
     getCNVMatrixMetaURL,
-    getCNVMetaURL,
+    getCNVMetaURL, getCNVVizCheckURL,
     getProjectCNVMatrixURL
 } from "../../../../data/get";
 import Box from "@mui/material/Box";
@@ -12,6 +12,68 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import React, {memo} from "react";
 import {CNVHeatMap} from "/components/Viz/HeatMap/ChromosomeLevel/CNVHeatMap";
+import LoadingView from "../../../StateViews/LoadingView"
+import ErrorView from "../../../StateViews/ErrorView"
+import Stack from "@mui/material/Stack"
+import { Span } from "../../../styledComponents/styledHTMLTags"
+
+const CNVHeatMapWrapper = ({
+    projectId,
+    CNVBaseline,
+    vizSetting,
+    dataSetting,
+    cnvType,
+    isValueType
+}) => {
+    const getMatrixParams = new URLSearchParams({
+        projectId: projectId,
+        diseaseType: dataSetting.diseaseType,
+        primarySite: dataSetting.primarySite,
+        workflowType: dataSetting.workflowType,
+        cnvType: cnvType
+    })
+
+    const {
+        data,
+        isLoading,
+        error
+    } = useSWR(`${getCNVVizCheckURL}?${getMatrixParams.toString()}`, fetcher)
+
+    if (isLoading) {
+        return <LoadingView/>
+    }
+
+    if (error) {
+        return <ErrorView/>
+    }
+
+    return (
+        <>
+            {
+                data?.fileCount >= 5 ? (
+                    <CNVHeatMapContainer
+                        projectId={projectId}
+                        CNVBaseline={CNVBaseline}
+                        vizSetting={vizSetting}
+                        dataSetting={dataSetting}
+                        cnvType={cnvType}
+                        isValueType={isValueType}
+                    />
+                ) : (
+                    <Stack
+                        sx={{ height: '100%' }}
+                        justifyContent='center'
+                        alignItems='center'
+                    >
+                        <Typography variant='h5'>
+                            Fewer than 5 CNV files were found for the selected cases. Visualization is unavailable
+                        </Typography>
+                    </Stack>
+                )
+            }
+        </>
+    )
+}
 
 const CNVHeatMapContainer = (
     {
@@ -113,4 +175,4 @@ const CNVHeatMapContainer = (
     )
 }
 
-export const MemoCNVHeatMapContainer = memo(CNVHeatMapContainer)
+export const MemoCNVHeatMapWrapper = memo(CNVHeatMapWrapper)

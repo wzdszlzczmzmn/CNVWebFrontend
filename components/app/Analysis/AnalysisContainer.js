@@ -18,8 +18,8 @@ const AnalysisContainer = ({}) => {
 
     const router = useRouter()
 
-    const handleNavigate = (path) => {
-        router.push(path)
+    const handleNavigate = () => {
+        router.push('/analysis/result/b3c5fae7-316f-4ea7-bc50-4faded34590e/')
     }
 
     return (
@@ -36,7 +36,11 @@ const AnalysisContainer = ({}) => {
                             >
                                 Run Demo
                             </Button>
-                            <Button>View Demo Result</Button>
+                            <Button
+                                onClick={() => handleNavigate()}
+                            >
+                                View Demo Result
+                            </Button>
                         </Stack>
                     </Stack>
                 }

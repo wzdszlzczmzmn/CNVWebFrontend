@@ -29,6 +29,7 @@ export const getProjectCNVMatrixURL = `${root}/cnvdata/project_CNVMatrix`;
 export const getCNVMatrixMetaURL = `${root}/cnvdata/CNVMatrix_meta`
 export const getCNVMetaURL = `${root}/cnvdata/project_CNVMeta`
 export const getCNVCutURL = `${root}/cnvdata/project_CNVCut`
+export const getCNVVizCheckURL = `${root}/cnvdata/CNVViz_Check`
 
 export const getProjectMetaInfoURL = `${root}/cnvdata/project_meta_info`
 export const getProjectGISTICMetaInfoURL = `${root}/cnvdata/project_gistic_meta_info`
@@ -49,6 +50,8 @@ export const getGISTICTaskURL = `${root}/analysis/gistic_task_query`
 export const getGISTICDemoDataURL = `${root}/analysis/gistic_demo_data_download`
 export const getGISTICRecurrentRegionsURL = `${root}/analysis/gistic_recurrent_region`
 export const getGISTICRecurrentEventURL = `${root}/analysis/gistic_recurrent_event`
+
+export const getProjectData = `${root}/cnvdata/download-project-data/`
 
 const DataInfoFallback = {
     data_uuid: "",

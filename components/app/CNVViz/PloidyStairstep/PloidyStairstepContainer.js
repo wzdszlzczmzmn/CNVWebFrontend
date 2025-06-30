@@ -72,7 +72,11 @@ const PloidyStairstepContent = ({ projectId, cnvType, metaInfo }) => {
                 clusterMethod: dataSettingManager.dataSetting.groupingStrategy === 'Hierarchical Clustering' ? dataSettingManager.dataSetting.clusterMethod : undefined,
                 clusterMetric: dataSettingManager.dataSetting.groupingStrategy === 'Hierarchical Clustering' ? dataSettingManager.dataSetting.clusterMetric : undefined
             }).then((response) => {
-                setRenderData(response.data)
+                if (response.data !== '') {
+                    setRenderData(response.data)
+                } else {
+                    setRenderData([])
+                }
                 if (isShowValueTypeSelector) {
                     setCNVMax(10)
                     setCNVMin(0)
@@ -134,7 +138,7 @@ const PloidyStairstepContent = ({ projectId, cnvType, metaInfo }) => {
                                 sx={{ height: '100%', border: 0 }}
                                 loadingPrompt="Processing Data..., please wait for a moment."
                             />
-                        ) : !renderData ? (
+                        ) : renderData === null ? (
                             <Box sx={{
                                 width: '100%',
                                 height: '100%',
@@ -146,7 +150,21 @@ const PloidyStairstepContent = ({ projectId, cnvType, metaInfo }) => {
                                     Adjust the data settings, then click ‘Render’ to generate the visualization.
                                 </Typography>
                             </Box>
-                        ) : (
+                        ) : Array.isArray(renderData) && renderData.length === 0 ?(
+                            <Box sx={{
+                                width: '100%',
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                px: '20px'
+                            }}>
+                                <Typography variant='h4'>
+                                    Group Number Larger Than Filtered Samples.
+                                </Typography>
+                            </Box>
+                        ) :  (
                             <MemoPloidyStairstep
                                 groupedCNVMatrixCSV={renderData?.groupedCNVMatrixCSV}
                                 displaySettingManager={displaySettingManager}

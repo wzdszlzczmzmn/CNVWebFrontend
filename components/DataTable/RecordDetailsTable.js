@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import {fetcher, getOneRecordURL} from "data/get";
+import { fetcher, getOneRecordURL, getProjectData } from "data/get";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,10 +15,20 @@ import {ImDownload} from "react-icons/im";
 import {DiseaseTypeChipWithTooltip, PrimarySiteChipWithTooltip, ExperimentalStrategyChip} from './Cards'
 import Grid from "@mui/material/Grid"
 import LinkIcon from '@mui/icons-material/Link'
+import { notification } from "antd"
+import { downloadSingleFile } from "./DataRecordList"
 
 const RecordDetailsTable = ({dataID}) => {
+    const {data, error} = useSWR(`${getOneRecordURL}/${dataID}`, fetcher)
 
-    const {data, error} = useSWR(`${getOneRecordURL}/${dataID}`, fetcher);
+    const handleDownload = (url) => {
+        notification.info({
+            message: 'Preparing Download',
+            description: 'The server is packaging your files. The download will start shortly.',
+            placement: 'topRight',
+        })
+        downloadSingleFile(url)
+    }
 
     if (data === undefined) {
         return <></>
@@ -90,7 +100,7 @@ const RecordDetailsTable = ({dataID}) => {
                                 <IconButton
                                     size="small"
                                     color="primary"
-                                    href={`https://api.aquila.cheunglab.org/static/${data.project_id}.zip`}
+                                    onClick={() => handleDownload(`${getProjectData}?project=${data.project_id}`)}
                                 >
                                     <ImDownload/>
                                 </IconButton>

@@ -44,7 +44,7 @@ export const DataSettingPanel = ({
             value: dataSettingManager.dataSetting.groupingStrategy,
             setValue: dataSettingManager.handleGroupingStrategyChange,
             title: "Cluster Strategy:",
-            valueList: ["Hierarchical Clustering", "Custom"],
+            valueList: ["Hierarchical Clustering"],
             inputComponentType: "Selector"
         },
         {

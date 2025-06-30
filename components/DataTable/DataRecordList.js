@@ -20,9 +20,25 @@ import {
 import Tooltip from "@mui/material/Tooltip";
 import {ImDownload} from 'react-icons/im';
 import PageviewOutlinedIcon from '@mui/icons-material/PageviewOutlined';
+import { getProjectData } from "../../data/get"
+import { notification } from "antd"
 
+export const downloadSingleFile = (fileUrl) => {
+    const link = document.createElement('a')
+    link.href = fileUrl
+    link.click()
+}
 
 const DataRecordCard = ({record}) => {
+    const handleDownload = (url) => {
+        notification.info({
+            message: 'Preparing Download',
+            description: 'The server is packaging your files. The download will start shortly.',
+            placement: 'topRight',
+        })
+        downloadSingleFile(url)
+    }
+
     return <Grid item xs={4} md={6}>
         <Container maxWidth="400px">
             <Paper square elevation={0} sx={{
@@ -82,6 +98,7 @@ const DataRecordCard = ({record}) => {
                             <IconButton
                                 size="small"
                                 color="primary"
+                                onClick={() => handleDownload(`${getProjectData}?project=${record.project_id}`)}
                             >
                                 <ImDownload/>
                             </IconButton>

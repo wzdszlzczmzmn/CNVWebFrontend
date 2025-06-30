@@ -17,9 +17,9 @@ import {
     WholeChartSettingPanel
 } from "../CNVHeatMapVizSettingComponents"
 import HeatMapMainPanel from "../../Layout/HeatMapMainPanel"
-import { MemoCNVHeatMapContainer } from "../../Container/CNVHeatMapContainer"
 import ErrorView from "../../../../StateViews/ErrorView"
 import LoadingView from "../../../../StateViews/LoadingView"
+import { MemoCNVHeatMapWrapper } from "../../Container/CNVHeatMapContainer"
 
 const ChromosomeLevelCNVHeatMaps = ({ projectId, cnvTypes }) => {
     const [value, setValue] = useState(0);
@@ -220,7 +220,7 @@ const ChromosomeLevelCNVHeatMapContent = ({ projectId, cnvType, metaInfo }) => {
                     <></>
             }
             <HeatMapMainPanel sideBarOpen={sideBarOpen} handleSideBarChange={handleSideBarChange}>
-                <MemoCNVHeatMapContainer
+                <MemoCNVHeatMapWrapper
                     projectId={projectId}
                     CNVBaseline={cnvBaseline}
                     vizSetting={{

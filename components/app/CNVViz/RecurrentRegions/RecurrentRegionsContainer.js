@@ -97,7 +97,7 @@ const RecurrentRegionsContent = ({ taskId, cnvType, metaInfo }) => {
                 primarySite: dataSettingManager.dataSetting.primarySite
             }
         }).then(response => {
-            if (response.data) {
+            if (response.data !== '') {
                 setRenderData({
                     ampRegions: response.data.ampRegions,
                     delRegions: response.data.delRegions,
@@ -173,7 +173,7 @@ const RecurrentRegionsContent = ({ taskId, cnvType, metaInfo }) => {
                                     Adjust the data settings, then click ‘Render’ to generate the visualization.
                                 </Typography>
                             </Box>
-                        ) : renderData === [] ? (
+                        ) : Array.isArray(renderData) && renderData.length === 0 ? (
                             <Box sx={{
                                 width: '100%',
                                 height: '100%',

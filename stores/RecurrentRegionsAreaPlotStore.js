@@ -28,7 +28,7 @@ export const useRecurrentRegionsAreaPlotStore = create((set) => ({
         height: 20
     },
     displaySetting: {
-        chromosome: 'All',
+        chromosome: 'chr1',
         mode: 'Adaptive',
         ampYAxisMax: 3,
         delYAxisMax: 3

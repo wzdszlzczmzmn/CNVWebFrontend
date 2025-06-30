@@ -18,7 +18,6 @@ import { HeatMap } from './HeatMapComponent'
 import { NodeHistory } from './NodeHistoryComponent'
 import { PhylogeneticTree } from './PhylogeneticTreeComponent'
 import { Header } from './HeaderComponent'
-import { HclusterAvgCNVMatrix } from './HclusterAvgCNVMatrix'
 import { ColorLegends } from './ColorLegends'
 
 export const CNVHeatMap = ({

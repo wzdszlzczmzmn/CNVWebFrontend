@@ -11,6 +11,7 @@ export const navLinks = [
     { title: "Dataset", path: "/view" },
     { title: 'Analysis', path: "/analysis" },
     { title: 'Workspace', path: "/workspace" },
+    { title: 'Tutorial', path: "/tutorial" },
     { title: 'Contact', path: '/contact' }
 ]
 

@@ -11,8 +11,8 @@ const Home = () => {
             <Stack>
                 <Introduction/>
                 <Hr/>
-                <Features/>
                 <Statistic/>
+                <Features/>
             </Stack>
         </Container>
     )

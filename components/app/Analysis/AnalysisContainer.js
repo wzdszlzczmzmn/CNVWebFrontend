@@ -26,7 +26,7 @@ const AnalysisContainer = ({}) => {
         <>
             <Stack alignItems="center" spacing={6}>
                 <Card
-                    title={<Title level={2}>GISTIC2 Analysis Submission</Title>}
+                    title={<Title level={2}>Recurrent CNV Analysis Submission</Title>}
                     style={{
                         width: '1080px',
                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',

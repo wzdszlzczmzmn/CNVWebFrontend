@@ -24,7 +24,7 @@ const features = [
 
 const FeatureCards = () => {
     return (
-        <Container maxWidth="lg" sx={{ mt: 1 }}>
+        <Container maxWidth="lg" sx={{ mt: 1, mb: 4 }}>
             <Title level={2} style={{ textAlign: 'center', marginBottom: '32px' }}>
                 Features
             </Title>

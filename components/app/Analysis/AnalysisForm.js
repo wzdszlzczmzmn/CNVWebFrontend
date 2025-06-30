@@ -9,7 +9,6 @@ import { postGISTICTaskURL } from "../../../data/post"
 const SubmitForm = ({ setTaskUUID, setSubmissionStatus, setTaskName, setIsModelOpen }) => {
     const [expressionMatrixFileList, setExpressionMatrixFileList] = useState([])
     const [groupInformationFileList, setGroupInformationFileList] = useState([])
-    const [queryProteinListFileList, setQueryProteinListFileList] = useState([])
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     const [form] = Form.useForm()
@@ -22,7 +21,6 @@ const SubmitForm = ({ setTaskUUID, setSubmissionStatus, setTaskName, setIsModelO
         form.resetFields()
         setExpressionMatrixFileList([])
         setGroupInformationFileList([])
-        setQueryProteinListFileList([])
     }
 
     const onFinish = async (values) => {
@@ -32,9 +30,9 @@ const SubmitForm = ({ setTaskUUID, setSubmissionStatus, setTaskName, setIsModelO
         formData.append('taskName', values.taskName)
         formData.append('brlen', values.brlen)
         formData.append('conf', values.conf)
+        formData.append('ref', values.refGenome)
         formData.append('expressionMatrixFile', expressionMatrixFileList[0], 'segment.txt')
         formData.append('groupInformationFile', groupInformationFileList[0], 'marker.txt')
-        formData.append('queryProteinListFile', queryProteinListFileList[0], 'ref.mat')
 
         for (let pair of formData.entries()) {
             console.log(`${pair[0]}:`, pair[1])
@@ -180,6 +178,28 @@ const SubmitForm = ({ setTaskUUID, setSubmissionStatus, setTaskName, setIsModelO
                 </Form.Item>
 
                 <Form.Item
+                    label={<CustomFormLabel text="Reference Genome"/>}
+                    name="refGenome"
+                    hasFeedback
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Reference Genome is required',
+                        },
+                    ]}
+                    tooltip="Used by GISTIC to map genomic regions based on the selected reference genome (hg19 or hg38)."
+                >
+                    <Select
+                        style={{
+                            width: '500px'
+                        }}
+                    >
+                        <Select.Option value="hg38">hg38</Select.Option>
+                        <Select.Option value="hg19">hg19</Select.Option>
+                    </Select>
+                </Form.Item>
+
+                <Form.Item
                     name="expressionMatrixFile"
                     label={
                         <CustomFormLabelWithDownload
@@ -265,54 +285,6 @@ const SubmitForm = ({ setTaskUUID, setSubmissionStatus, setTaskName, setIsModelO
                     </Upload>
                 </Form.Item>
 
-                <Form.Item
-                    noStyle
-                    shouldUpdate={(prevValues, currentValues) => prevValues.taskType !== currentValues.taskType}
-                >
-                    <Form.Item
-                        name="queryProteinListFile"
-                        label={
-                            <CustomFormLabelWithDownload
-                                text="Reference Genome File"
-                                toolTipTitle="Click to Donload Demo Reference Genome File"
-                                file="queryProteinList"
-                                fileName="demo_query_protein_list.csv"
-                            />
-                        }
-                        valuePropName="queryProteinListFileList"
-                        required
-                        rules={[
-                            () => ({
-                                validator(_, value) {
-                                    if (
-                                        !value ||
-                                        value.fileList.length === 0 ||
-                                        !value.file.name.endsWith('.mat')
-                                    ) {
-                                        return Promise.reject(new Error('You should provide a .mat file!'));
-                                    }
-                                    return Promise.resolve();
-                                },
-                            }),
-                        ]}
-                        tooltip=".txt, The reference genome file contains information about the location of genes and cytobands on a given build of the genome. Reference genome files are created in MatlabTM and are not viewable with a text editor. The GISTIC 2.0 release has four reference genomes located in the refgenefiles directory: hg16.mat, hg17.mat, hg18.mat, and hg19.mat."
-                    >
-                        <Upload
-                            onRemove={(file) => {
-                                setQueryProteinListFileList([])
-                            }}
-                            beforeUpload={(file) => {
-                                setQueryProteinListFileList([file]);
-                                return false;
-                            }}
-                            fileList={queryProteinListFileList}
-                            maxCount={1}
-                        >
-                            <Button icon={<UploadOutlined/>}>Click to upload</Button>
-                        </Upload>
-                    </Form.Item>
-                </Form.Item>
-
                 <Form.Item label={null}>
                     <Stack
                         direction="row"
@@ -381,7 +353,7 @@ const CustomFormLabelWithDownload = ({ text, toolTipTitle, file, fileName }) => 
                     style={{
                         fontSize: '14px',
                     }}
-                    onClick={handleDownload}
+                    // onClick={handleDownload}
                 />
             </Tooltip>
         </Stack>

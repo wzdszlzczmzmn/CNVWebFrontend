@@ -65,28 +65,29 @@ const TeamIntroduction = () => {
                     <Stack spacing={2} sx={{alignSelf: 'flex-start', fontSize: '20px'}}>
                         <Stack direction="row" spacing={1}>
                             <ExperimentOutlined/>
-                            <Span><b>Lab Name:</b> Feng lab</Span>
+                            <Span><b>Lab Name:</b> <a href="https://compbioclub.github.io"
+                                                      target="_blank">CompBioClub</a></Span>
                         </Stack>
                         <Stack direction="row" spacing={1}>
                             <BookOutlined/>
-                            <Span><b>Department:</b> School of Software</Span>
+                            <Span><b>Department:</b> Department of Biomedical Sciences</Span>
                         </Stack>
                         <Stack direction="row" spacing={1}>
                             <BankOutlined/>
-                            <Span><b>School:</b> Northwestern Polytechnical University</Span>
+                            <Span><b>School:</b> City University of Hong Kong</Span>
                         </Stack>
                         <Stack direction="row" spacing={1}>
                             <MailOutlined/>
-                            <Span><b>Email:</b> fxk@nwpu.edu.cn</Span>
+                            <Span><b>Email:</b> lingxi.chen@cityu.edu.hk</Span>
                         </Stack>
                         <Stack direction="row" spacing={1}>
                             <UserOutlined/>
-                            <Span><b>Profile:</b> <a href="https://fengslab.com/"
-                                                     target="_blank">Xikang Feng</a></Span>
+                            <Span><b>Profile:</b> <a href="https://www.cityu.edu.hk/bms/profile/lingxichen.htm"
+                                                     target="_blank">Lingxi Chen</a></Span>
                         </Stack>
                         <Stack direction="row" spacing={1} sx={{alignItems: 'center'}}>
                             <EnvironmentOutlined/>
-                            <Span><b>Address:</b> 127 West Youyi Road, Beilin District, Xi'an Shaanxi, 710072, P.R.China.</Span>
+                            <Span><b>Address:</b> 1A-102, 1/F, Block 1, To Yuen Building, Tat Chee Avenue, Kowloon, Hong Kong, China</Span>
                         </Stack>
                     </Stack>
                 </Stack>

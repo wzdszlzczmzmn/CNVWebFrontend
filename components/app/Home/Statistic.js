@@ -3,7 +3,15 @@ import { Container } from "@mui/material"
 import Grid from "@mui/material/Grid"
 import DiseasesAndSitesChart from "./diseasesAndSitesChart"
 import Box from "@mui/material/Box"
-import { AssignmentInd, Biotech, Description, FolderOpen, PeopleAlt } from "@mui/icons-material"
+import {
+    AssignmentInd,
+    Biotech,
+    Description,
+    FolderOpen,
+    LocalHospital,
+    PeopleAlt,
+    TravelExplore
+} from "@mui/icons-material"
 
 const { Title, Text } = Typography
 
@@ -15,6 +23,22 @@ const stats = [
         value: '47',
         label: 'Projects',
         bgColor: '#e0f2fe',
+    },
+    {
+        icon: (
+            <LocalHospital style={{ fontSize: 24, color: '#b91c1c' }} />
+        ),
+        value: '33',
+        label: 'Cancer Types',
+        bgColor: '#fee2e2',
+    },
+    {
+        icon: (
+            <TravelExplore style={{ fontSize: 24, color: '#1e40af' }} />
+        ),
+        value: '53',
+        label: 'Anatomical Sites',
+        bgColor: '#dbeafe',
     },
     {
         icon: (
@@ -56,9 +80,9 @@ const Statistic = () => {
             <Title id="dataset-statistics" level={2} style={{ textAlign: 'center', marginBottom: '32px' }}>
                 Dataset Statistics
             </Title>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} justifyContent="center">
                 {stats.map((item, index) => (
-                    <Grid item xs={12} sm={6} md={2.4} key={index}>
+                    <Grid item xs={12} sm={6} md={3} key={index}>
                         <Card key={index} style={{ flex: '1 1 20%' }}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <div

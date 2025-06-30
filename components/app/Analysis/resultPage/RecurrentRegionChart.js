@@ -1,83 +1,43 @@
-import React, { memo, useEffect, useRef, useState } from "react"
-import Box from "@mui/material/Box"
-import Tabs from "@mui/material/Tabs"
-import Tab from "@mui/material/Tab"
-import { TabPanel } from "../Layout/TabPanel"
-import useSWR from "swr"
-import { fetcher, getProjectGISTICMetaInfoURL, getRecurrentRegionsAreaPlotRenderURL } from "../../../../data/get"
-import ErrorView from "../../../StateViews/ErrorView"
-import LoadingView from "../../../StateViews/LoadingView"
-import { message } from "antd"
-import { useDataSetting } from "../../CustomHook/CNVVizCustomHooks/RecurrentRegionsHook"
-import Stack from "@mui/material/Stack"
-import HeatMapMainPanel from "../Layout/HeatMapMainPanel"
-import HeatMapLeftPanel from "../Layout/HeatMapLeftPanel"
-import { List } from "@mui/material"
-import { DataSettingPanel, DisplaySettingPanel } from "./RecurrentRegionsVizConfigComponents"
-import MemoRecurrentRegionsAreaPlot from "../../../Viz/RecurrentRegionsAreaPlot/RecurrentRegionsAreaPlot"
+import React, {Fragment, useEffect, useRef, useState} from "react"
+import {Button, message} from "antd"
 import axios from "axios"
+import {getGISTICRecurrentRegionsURL, getRecurrentRegionsAreaPlotRenderURL} from "../../../../data/get"
+import Stack from "@mui/material/Stack"
+import HeatMapLeftPanel from "../../CNVViz/Layout/HeatMapLeftPanel"
+import {List} from "@mui/material"
+import {DisplaySettingPanel} from "../../CNVViz/RecurrentRegions/RecurrentRegionsVizConfigComponents"
+import HeatMapMainPanel from "../../CNVViz/Layout/HeatMapMainPanel"
+import LoadingView from "../../../StateViews/LoadingView"
+import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
+import MemoRecurrentRegionsAreaPlot from "../../../Viz/RecurrentRegionsAreaPlot/RecurrentRegionsAreaPlot"
+import {ListCollapsePanel} from "../../../Layout/ListCollapsePanel"
+import {PieChart} from "@mui/icons-material"
+import {SettingSelector} from "../../CNVViz/SettingConfigComponents/SettingSelector"
+import {SettingInput} from "../../CNVViz/SettingConfigComponents/SettingInput"
+import Divider from "@mui/material/Divider"
 
-const RecurrentRegionsContainer = ({ projectId, cnvTypes }) => {
-    const [value, setValue] = useState(0)
-
-    const handleChange = (e, v) => setValue(v)
-
-    const filteredCNVTypes = cnvTypes.filter(
-        cnvType => cnvType === 'Masked Copy Number Segment' || cnvType === 'Copy Number Segment'
-    )
+const RecurrentRegionChart = ({ id }) => {
 
     return (
-        <Box sx={{ width: '100%', border: 1, borderColor: 'divider' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    {
-                        filteredCNVTypes
-                            .map((cnvType, index) => (
-                                <Tab label={cnvType} key={index} sx={{ textTransform: 'none' }}/>
-                            ))
-                    }
-                </Tabs>
+        <Stack spacing={2}>
+            <Typography variant="h4" gutterBottom align="center">
+                Recurrent Region Chart
+            </Typography>
+            <Box sx={{ border: '1px, solid, rgba(0, 0, 0, 0.12)' }}>
+                <RecurrentRegionsContent taskId={id}/>
             </Box>
-            {
-                filteredCNVTypes
-                    .map((cnvType, index) => (
-                        <TabPanel value={value} index={index} key={index} sx={{ height: '80vh' }}>
-                            <RecurrentRegionsWrapper projectId={projectId}  cnvType={cnvType}/>
-                        </TabPanel>
-                    ))
-            }
-        </Box>
+        </Stack>
     )
 }
 
-const RecurrentRegionsWrapper = ({ projectId, cnvType }) => {
-    const {
-        data: metaInfo,
-        error: metaError,
-        isLoading: isLoadingMeta
-    } = useSWR(`${getProjectGISTICMetaInfoURL}?projectId=${projectId}&cnvType=${cnvType}`, fetcher)
-
-    if (metaError) {
-        return <ErrorView/>
-    }
-
-    if (isLoadingMeta) {
-        return <LoadingView/>
-    }
-
-    return (
-        <RecurrentRegionsContent taskId={projectId} cnvType={cnvType} metaInfo={metaInfo}/>
-    )
-}
-
-const RecurrentRegionsContent = ({ taskId, cnvType, metaInfo }) => {
+const RecurrentRegionsContent = ({ taskId }) => {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
     const [sideBarOpen, setSideBarOpen] = useState(true)
     const [processing, setProcessing] = useState(false)
     const [renderData, setRenderData] = useState(null)
     const [messageApi, contextHolder] = message.useMessage()
-    const dataSettingManager = useDataSetting(metaInfo)
+    const dataSettingManager = useDataSetting()
 
     const containerRef = useRef(null)
 
@@ -89,15 +49,13 @@ const RecurrentRegionsContent = ({ taskId, cnvType, metaInfo }) => {
 
     const renderRecurrentRegionsAreaPlot = () => {
         setProcessing(true)
-        axios.get(getRecurrentRegionsAreaPlotRenderURL, {
+        axios.get(getGISTICRecurrentRegionsURL, {
             params: {
-                projectId: taskId,
-                cnvType: cnvType,
-                diseaseType: dataSettingManager.dataSetting.diseaseType,
-                primarySite: dataSettingManager.dataSetting.primarySite
+                projectId: taskId
             }
         }).then(response => {
             if (response.data) {
+                console.log(response.data.scoresGISTIC)
                 setRenderData({
                     ampRegions: response.data.ampRegions,
                     delRegions: response.data.delRegions,
@@ -139,7 +97,6 @@ const RecurrentRegionsContent = ({ taskId, cnvType, metaInfo }) => {
                         <HeatMapLeftPanel sx={{ px: 1, minWidth: '285px' }}>
                             <List>
                                 <DataSettingPanel
-                                    metaInfo={metaInfo}
                                     dataSettingManager={dataSettingManager}
                                     renderRecurrentRegionsAreaPlot={renderRecurrentRegionsAreaPlot}
                                 />
@@ -206,6 +163,92 @@ const RecurrentRegionsContent = ({ taskId, cnvType, metaInfo }) => {
     )
 }
 
+export const useDataSetting = () => {
+    const [dataSetting, setDataSetting] = useState({
+        yAxisValueType: 'G-score'
+    })
+
+    const handleYAxisValueTypeChange = (newYAxisValueType) => {
+        setDataSetting((prev) => ({
+            ...prev,
+            yAxisValueType: newYAxisValueType,
+        }))
+    }
+
+    return {
+        dataSetting,
+        handleYAxisValueTypeChange
+    }
+}
+
+const DataSettingPanel = ({
+                              dataSettingManager,
+                              renderRecurrentRegionsAreaPlot
+                          }) => {
+    const settingItems = [
+        {
+            key: "yAxisValueType",
+            value: dataSettingManager.dataSetting.yAxisValueType,
+            setValue: dataSettingManager.handleYAxisValueTypeChange,
+            title: 'YAxis Value Type:',
+            valueList: ['G-score', 'q-value'],
+            inputComponentType: "Selector"
+        }
+    ]
+
+    return (
+        <ListCollapsePanel
+            defaultOpenState={true}
+            icon={<PieChart/>}
+            title={'Data Setting'}
+            showDivider={true}
+        >
+            <Stack spacing={2} sx={{ mt: 2, mb: 2, px: 2 }}>
+                {
+                    settingItems.map((setting, index) => (
+                        <Fragment key={setting.key}>
+                            {
+                                setting.inputComponentType === 'Selector' ? (
+                                    <SettingSelector
+                                        value={setting.value}
+                                        setValue={setting.setValue}
+                                        title={setting.title}
+                                        valueList={setting.valueList}
+                                    />
+                                ) : (
+                                    <SettingInput
+                                        value={setting.value}
+                                        handleValueChange={setting.setValue}
+                                        valueName={setting.name}
+                                        id={setting.id}
+                                        type={setting.type}
+                                        title={setting.title}
+                                        step={1}
+                                    />
+                                )
+                            }
+
+                            {index < settingItems.length - 1 && <Divider/>}
+                        </Fragment>
+                    ))
+                }
+            </Stack>
+            <Stack spacing={1} sx={{ mt: 2, mb: 2, px: '6px' }}>
+                <Button
+                    style={{
+                        backgroundColor: '#41B3A2',
+                        color: '#FFFFFF',
+                        borderColor: '#41B3A2'
+                    }}
+                    onClick={renderRecurrentRegionsAreaPlot}
+                >
+                    Render
+                </Button>
+            </Stack>
+        </ListCollapsePanel>
+    )
+}
+
 const parseScoresGISTIC = (scoresGISTIC) => {
     return scoresGISTIC.map(scoreGISTIC => ({
         'type': scoreGISTIC["Type"],
@@ -219,6 +262,5 @@ const parseScoresGISTIC = (scoresGISTIC) => {
     }))
 }
 
-const MemoRecurrentRegionsContainer = memo(RecurrentRegionsContainer)
 
-export default MemoRecurrentRegionsContainer
+export default RecurrentRegionChart

@@ -47,6 +47,8 @@ export const getCaseSummaryDetailURL = `${root}/cnvdata/case_detail`
 
 export const getGISTICTaskURL = `${root}/analysis/gistic_task_query`
 export const getGISTICDemoDataURL = `${root}/analysis/gistic_demo_data_download`
+export const getGISTICRecurrentRegionsURL = `${root}/analysis/gistic_recurrent_region`
+export const getGISTICRecurrentEventURL = `${root}/analysis/gistic_recurrent_event`
 
 const DataInfoFallback = {
     data_uuid: "",
